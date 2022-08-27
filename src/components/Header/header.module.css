@@ -1,0 +1,68 @@
+.a{
+    border-radius: 1.5rem;
+    color: white;
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.a:hover{
+    color: var(--primary-purple);
+    background-color: aliceblue;
+    border-radius: 1.5rem;
+    transition: 0.5s;
+}
+
+.Header{
+    background-color: #0705656c;
+    background:
+    /* top, transparent red, faked with gradient */ 
+    linear-gradient(
+      rgba(7, 5, 101, 0.9), 
+      rgba(7, 5, 101, 0.7)
+    ),
+    /* bottom, image */
+    url('../../assets/header-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    transition: ease 4s;
+}
+
+.Header:hover{
+    background:
+    /* top, transparent red, faked with gradient */ 
+    linear-gradient(
+      rgba(7, 5, 101, 0.9), 
+      rgba(58, 5, 101, 0.7)
+    ),
+    /* bottom, image */
+    url('../../assets/header-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+}
+
+.logo{
+    color: white;
+    cursor: pointer;
+    font-family:'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo:hover{
+    color: var(--primary-purple);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: #ffffff;
+    transition: 2s;
+}
+
+.resume{
+    border: 0.1rem solid aliceblue;
+    border-radius: 1.5rem;
+}
