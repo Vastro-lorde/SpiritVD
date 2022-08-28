@@ -12,6 +12,12 @@
     transition: 0.5s;
 }
 
+.dayNigth{
+    color: white !important;
+    cursor: pointer;
+    width: 2rem;
+}
+
 .Header{
     background-color: #0705656c;
     background:
@@ -29,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1rem;
+    padding: 0.2rem 5rem;
     transition: ease 4s;
 }
 
@@ -45,6 +51,11 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
+}
+
+.links{
+    display: flex;
+    align-items: center;
 }
 
 .logo{

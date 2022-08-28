@@ -1,0 +1,73 @@
+.Bio{
+    display: flex;
+    justify-content: space-between;
+    padding: 4rem 5rem;
+    text-align: left;
+}
+
+.social{
+    width: 1.5rem;
+    padding: 0.3rem 0.5rem;
+    transition: ease-out 0.5s;
+}
+
+.social:hover{
+    background-color: thistle;
+    width: 2rem;
+}
+
+.job{
+    font-size: 1.5rem;
+    color: var(--primary-purple);
+    margin: 0rem 0rem 2rem 0rem;
+}
+
+.myName{
+    font-size: 1.5rem;
+    margin: 0rem 0rem;
+}
+
+.name{
+    font-weight:900;
+    font-size: 3rem;
+    margin: 0rem 0rem;
+}
+/* .profileImg>img{
+    height: 100%;
+} */
+
+.profileImg{
+    border-radius: 0 6rem;
+    filter: drop-shadow( 16px 16px 0px var(--primary-purple));
+    overflow:hidden;
+    width: 15rem;
+    transition: ease-in 0.5s;
+}
+
+.profileImg:hover{
+    filter: drop-shadow( 6px 6px 4px var(--primary-purple));
+    width: 30rem;
+}
+
+.profileImgContainer{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    margin-right: 2rem;
+    height: 20rem;
+    width: 20rem;
+}
+
+.socialLinks{
+    display: flex;
+    flex-direction: column;
+    margin-top: 7rem;
+    
+}
+
+.summary{
+    font-size: 0.8rem;
+    width: 35rem;
+}

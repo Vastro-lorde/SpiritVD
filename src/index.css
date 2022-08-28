@@ -4,6 +4,10 @@
 
 }
 
+*{
+  box-sizing: border-box;
+}
+
 a{
   text-decoration: none;
 }
@@ -17,7 +21,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+img{
+  width: 100%;
 }

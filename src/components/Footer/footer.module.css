@@ -1,0 +1,34 @@
+.Footer{
+    background-color: #0705656c;
+    background:
+    /* top, transparent red, faked with gradient */ 
+    linear-gradient(
+      rgba(7, 5, 101, 0.9), 
+      rgba(7, 5, 101, 0.7)
+    ),
+    /* bottom, image */
+    url('../../assets/header-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    transition: ease 4s;
+}
+
+.Footer:hover{
+    background:
+    /* top, transparent red, faked with gradient */ 
+    linear-gradient(
+      rgba(7, 5, 101, 0.9), 
+      rgba(58, 5, 101, 0.7)
+    ),
+    /* bottom, image */
+    url('../../assets/header-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+}
