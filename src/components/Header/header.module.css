@@ -12,6 +12,11 @@
     transition: 0.5s;
 }
 
+.day{
+    background-color: #0705656c;
+    color: red;
+}
+
 .dayNigth{
     color: white !important;
     cursor: pointer;
@@ -19,7 +24,7 @@
 }
 
 .Header{
-    background-color: #0705656c;
+    
     background:
     /* top, transparent red, faked with gradient */ 
     linear-gradient(
@@ -31,7 +36,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    color: white;
+    
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -71,6 +76,11 @@
     -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: #ffffff;
     transition: 2s;
+}
+
+.night{
+    background-color: black;
+    color: whitesmoke;
 }
 
 .resume{

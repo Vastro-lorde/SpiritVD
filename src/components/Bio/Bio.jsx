@@ -13,7 +13,7 @@ const Bio = () => {
                 <h2 className={style.myName}>MY NAME IS:</h2>
                 <h1 className={style.name} >Seun Daniel Omatsola</h1>
                 <h3 className={style.job}>A SOFTWARE ENGINEER (.NET/JS)</h3>
-                <p className={style.summary}>With 5+ years experience in commercial application development, i have built innovative and cutting edge business solutions for the impressive suite of clients within its global reach. In previous roles, I slashed downtime by 25% and ensured 98% on-time project completion. Also identified and dealt with a significant process bottleneck that boosted coding efficiency by 35% when resolved.</p>
+                <p className={style.summary}>With over 3 years experience in commercial application development, I have built innovative and cutting edge business solutions for the impressive suite of clients within its global reach. In previous roles, I slashed downtime by 25% and ensured 98% on-time project completion. Also identified and dealt with a significant process bottleneck that boosted coding efficiency by 35% when resolved.</p>
             </div>
             <div className={style.profileImgContainer}>
                 <div className={style.profileImg}>
