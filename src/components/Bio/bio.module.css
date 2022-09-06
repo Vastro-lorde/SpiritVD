@@ -11,6 +11,10 @@
     transition: ease-out 0.5s;
 }
 
+.social>a{
+    cursor: url('https://cur.cursors-4u.net/anime/ani-11/ani1037.ani'), url('https://cur.cursors-4u.net/anime/ani-11/ani1037.png'), pointer;
+}
+
 .social:hover{
     background-color: thistle;
     width: 2rem;
@@ -19,6 +23,13 @@
 .job{
     font-size: 1.5rem;
     color: var(--primary-purple);
+    margin: 0rem 0rem 2rem 0rem;
+}
+
+.jobNight{
+    background-color: rgb(200, 200, 200);
+    color: var(--primary-purple);
+    font-size: 1.5rem;
     margin: 0rem 0rem 2rem 0rem;
 }
 
@@ -32,9 +43,6 @@
     font-size: 3rem;
     margin: 0rem 0rem;
 }
-/* .profileImg>img{
-    height: 100%;
-} */
 
 .profileImg{
     border-radius: 0 6rem;

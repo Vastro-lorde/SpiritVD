@@ -30,7 +30,7 @@ const Header = () => {
         }
     }
     return (
-        <div className={theme === 'light'? style.Header +' '+ style.day : style.Header +' '+ style.night}>
+        <div className={theme === 'light'? style.Header +' '+ style.day : style.Header +' '+ style.night} id="header">
             <div>
                 <a href='/'><p className={style.logo}>SpiritVD</p></a>
             </div>
@@ -38,7 +38,7 @@ const Header = () => {
                 <a href='#Contact' className={style.a}>Contact</a>
                 <a href='#About' className={style.a}>About</a>
                 <a href='#Experience' className={style.a}>Experience</a>
-                <a href='https://drive.google.com/u/0/uc?id=1Jz3WdrYTpVIS6ozDD_zYfxnmF5VO5woB&export=download' className={style.a + " "+ style.resume}>Download Resume</a> 
+                <a href='https://docs.google.com/document/d/1ovLKuJhm-mmlTyFO_ZYnRSCyGDu2fdHU/edit?usp=sharing&ouid=109028705090515635870&rtpof=true&sd=true'  target='_blank' rel="noopener noreferrer" className={style.a + " "+ style.resume}>Download Resume</a> 
                 {theme ==='light'? <div className={style.dayNigth} onClick={()=> toggleTheme()}>
                     <img src={day} alt='day time switch'/>
                 </div> : <div className={style.dayNigth} onClick={()=> toggleTheme()}>

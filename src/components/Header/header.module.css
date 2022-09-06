@@ -1,5 +1,6 @@
 .a{
     border-radius: 1.5rem;
+    cursor: url('https://cur.cursors-4u.net/anime/ani-12/oth1118.ani'), url('https://cur.cursors-4u.net/anime/ani-12/oth1118.png'), pointer;
     color: white;
     margin: 0 1rem;
     padding: 0.5rem 1rem;
@@ -19,7 +20,7 @@
 
 .dayNigth{
     color: white !important;
-    cursor: pointer;
+    cursor: url('https://cur.cursors-4u.net/anime/ani-12/oth1118.ani'), url('https://cur.cursors-4u.net/anime/ani-12/oth1118.png'), pointer;
     width: 2rem;
 }
 
@@ -65,7 +66,7 @@
 
 .logo{
     color: white;
-    cursor: pointer;
+    cursor: url('https://cur.cursors-4u.net/anime/ani-11/ani1037.ani'), url('https://cur.cursors-4u.net/anime/ani-11/ani1037.png'), pointer;
     font-family:'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
     font-size: 25px;
     font-weight: bold;

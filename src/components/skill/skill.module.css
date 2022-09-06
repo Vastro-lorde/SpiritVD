@@ -1,0 +1,63 @@
+
+.hobbies{
+    text-align: center !important;
+}
+
+.Skill{
+    background-color: whitesmoke;
+    border-radius: 10%;
+    display: inline-block;
+    filter: drop-shadow( 3px 4px 5px var(--primary-purple));
+    height: 2.5rem;
+    margin: 1rem;
+    overflow: hidden;
+    width: 10%;
+    transition: ease 0.5s;
+}
+
+.SkillNight{
+    background-color: whitesmoke;
+    border-radius: 10%;
+    display: inline-block;
+    filter: drop-shadow( 3px 4px 5px var(--primary-purple));
+    height: 2.5rem;
+    margin: 1rem;
+    overflow: hidden;
+    width: 10%;
+    transition: ease 0.5s;
+}
+
+.Skill:hover{
+    filter: drop-shadow( 1px 1px 2px var(--primary-purple));
+}
+
+.SkillNight:hover{
+    filter: drop-shadow( 1px 1px 2px whitesmoke );
+}
+
+.skillName{
+    font-weight: bold;
+    margin: 0;
+}
+
+.skillNameNight{
+    color: #333333;
+    font-weight: bold;
+    margin: 0;
+}
+
+.skillPoint{
+    background-color: var(--primary-purple);
+    height: 0.5rem;
+    padding: 0;
+    margin: 0;
+    height: 10rem;
+    width: 10%;
+}
+.skillPoint:hover{
+    border: #416c67 solid 1px;
+}
+
+.xp{
+    display: flex;
+}

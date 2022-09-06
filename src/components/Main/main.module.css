@@ -1,5 +1,55 @@
+.main{
+    color: #333333;
+}
+
 .night{
     background-color: #333333;
-    ;
-    color: whitesmoke;
+    color: rgb(200, 200, 200);
+}
+
+.up{
+    background-color: var(--primary-purple);
+    color: white;
+    display: none;
+    padding: 1rem 0.5rem;
+    position: fixed;
+    margin-left: 94vw;
+    margin-top: 60vh;
+    width: 4rem;
+    transition: ease 1s;
+}
+.down{
+    background-color: var(--primary-purple);
+    color: white;
+    display: none;
+    padding: 1rem 0.5rem;
+    position: fixed;
+    margin-left: 94vw;
+    margin-top: 70vh;
+    width: 4rem;
+    transition: ease 1s;
+}
+
+.downNight{
+    background-color: var(--primary-purple);
+    color: rgb(200, 200, 200);
+    display: none;
+    padding: 1rem 0.5rem;
+    position: fixed;
+    margin-left: 94vw;
+    margin-top: 70vh;
+    width: 4rem;
+    transition: ease 1s;
+}
+
+.upNight{
+    background-color: var(--primary-purple);
+    color: rgb(200, 200, 200);
+    display: none;
+    padding: 1rem 0.5rem;
+    position: fixed;
+    margin-left: 94vw;
+    margin-top: 60vh;
+    width: 4rem;
+    transition: ease 1s;
 }

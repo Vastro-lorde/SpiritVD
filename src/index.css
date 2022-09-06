@@ -1,6 +1,9 @@
 
 :root{
   --primary-purple: #070565CC;
+  --night-purple: #0704b0cc;
+  --orange-secondary: #FA8F21;
+
 
 }
 
@@ -9,10 +12,12 @@
 }
 
 a{
+  cursor: url('https://cur.cursors-4u.net/anime/ani-12/oth1118.ani'), url('https://cur.cursors-4u.net/anime/ani-12/oth1118.png'), pointer;
   text-decoration: none;
 }
 
 body {
+  cursor: url('https://cur.cursors-4u.net/anime/ani-11/ani1037.ani'), url('https://cur.cursors-4u.net/anime/ani-11/ani1037.png'), auto ;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

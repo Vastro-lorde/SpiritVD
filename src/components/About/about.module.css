@@ -1,0 +1,49 @@
+.a{
+    background-color: var(--primary-purple);
+    border-radius: 1.5rem;
+    color: white;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+}
+
+.aNight{
+    border-radius: 1.5rem;
+    color: white;
+    padding: 0.5rem 1rem;
+}
+
+.a:hover, .aNight:hover{
+    color: var(--primary-purple);
+    background-color: aliceblue;
+    filter: drop-shadow( 3px 4px 5px var(--primary-purple));
+    border-radius: 1.5rem;
+    transition: 0.5s;
+}
+
+.About{
+    padding: 2rem 5rem;
+    text-align: left;
+}
+
+.AboutDay{
+    background-color: #EBEBEBCC;
+    padding: 2rem 5rem;
+    text-align: left;
+}
+
+.resume{
+    border: 0.1rem solid aliceblue;
+    border-radius: 1.5rem;
+}
+
+.titleDay{
+    color: var(--primary-purple);
+    text-align: left;
+}
+
+.titleNight{
+    color: rgb(200, 200, 200);
+    
+    text-align: left;
+}
+
