@@ -3,6 +3,7 @@ import style from "./header.module.css";
 import day from '../../assets/day.svg';
 import night from '../../assets/night.svg';
 import { useState, useEffect } from 'react';
+import Resume from '../DownloadResume/Resume';
 // import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -38,7 +39,7 @@ const Header = () => {
                 <a href='#Contact' className={style.a}>Contact</a>
                 <a href='#About' className={style.a}>About</a>
                 <a href='#Experience' className={style.a}>Experience</a>
-                <a href='https://docs.google.com/document/d/1ovLKuJhm-mmlTyFO_ZYnRSCyGDu2fdHU/edit?usp=sharing&ouid=109028705090515635870&rtpof=true&sd=true'  target='_blank' rel="noopener noreferrer" className={style.a + " "+ style.resume}>Download Resume</a> 
+                <Resume />
                 {theme ==='light'? <div className={style.dayNigth} onClick={()=> toggleTheme()}>
                     <img src={day} alt='day time switch'/>
                 </div> : <div className={style.dayNigth} onClick={()=> toggleTheme()}>

@@ -3,6 +3,7 @@
     border-radius: 1.5rem;
     color: white;
     display: inline-block;
+    margin: 0 1rem;
     padding: 0.5rem 1rem;
 }
 
@@ -20,29 +21,7 @@
     transition: 0.5s;
 }
 
-.About{
-    padding: 2rem 5rem;
-    text-align: left;
-}
-
-.AboutDay{
-    background-color: #EBEBEBCC;
-    padding: 2rem 5rem;
-    text-align: left;
-}
-
 .resume{
     border: 0.1rem solid aliceblue;
     border-radius: 1.5rem;
 }
-
-.titleDay{
-    color: var(--primary-purple);
-    text-align: left;
-}
-
-.titleNight{
-    color: rgb(200, 200, 200);
-    text-align: left;
-}
-

@@ -1,0 +1,24 @@
+
+.contact{
+    padding: 2rem 5rem;
+    text-align: left;
+}
+
+.contactBody{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.formContainer{
+    padding: 4rem;
+}
+
+.fullname, .email, .message, .submit{
+    border-radius: 1rem;
+    display: block;
+    margin: 0.5rem;
+    padding: 1rem;
+    width: 20rem;
+}

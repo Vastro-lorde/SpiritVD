@@ -3,6 +3,8 @@ import style from './main.module.css';
 import Bio from '../Bio/Bio';
 import { useState, useEffect, useRef } from 'react';
 import About from '../About/About.jsx';
+import Experience from '../Experience/Experience';
+import Contact from '../Contact/Contact';
 
 const Main = () => {
     const [theme, setTheme] = useState('dark'||'light');
@@ -63,6 +65,8 @@ const Main = () => {
           {/* </a> */}
             <Bio theme={theme} />
             <About theme={theme} />
+            <Experience theme={theme} />
+            <Contact theme={theme}/>
         </div>
     );
 }

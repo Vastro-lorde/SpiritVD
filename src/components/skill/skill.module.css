@@ -11,7 +11,7 @@
     height: 2.5rem;
     margin: 1rem;
     overflow: hidden;
-    width: 10%;
+    width: 7rem;
     transition: ease 0.5s;
 }
 
@@ -38,6 +38,7 @@
 .skillName{
     font-weight: bold;
     margin: 0;
+    text-align: center;
 }
 
 .skillNameNight{

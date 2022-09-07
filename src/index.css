@@ -32,6 +32,16 @@ code {
     monospace;
 }
 
+.h2Day{
+  color: var(--primary-purple);
+    text-align: left;
+}
+
+.h2Night{
+  color: rgb(200, 200, 200);
+  text-align: left;
+}
+
 img{
   width: 100%;
 }

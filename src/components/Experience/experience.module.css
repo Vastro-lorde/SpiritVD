@@ -1,0 +1,15 @@
+.exp{
+    padding: 2rem 5rem;
+    text-align: left;
+}
+
+.titleDay{
+    color: var(--primary-purple);
+    text-align: left;
+}
+
+.titleNight{
+    color: rgb(200, 200, 200);
+    
+    text-align: left;
+}

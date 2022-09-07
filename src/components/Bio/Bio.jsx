@@ -9,7 +9,7 @@ import twitter from '../../assets/twitter.svg';
 const Bio = (props) => {
     const theme = props.theme
     return (
-        <div className={style.Bio} id="bio">
+        <div className={style.Bio} id="Bio">
             <div className={style.info}>
                 <h2 className={style.myName}>MY NAME IS:</h2>
                 <h1 className={style.name} >Seun Daniel Omatsola</h1>
