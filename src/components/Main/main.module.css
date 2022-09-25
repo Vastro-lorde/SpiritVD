@@ -53,3 +53,7 @@
     width: 4rem;
     transition: ease 1s;
 }
+
+.up,.down,.downNight,.upNight{
+    cursor:var(--cursor-pointer), pointer;
+}

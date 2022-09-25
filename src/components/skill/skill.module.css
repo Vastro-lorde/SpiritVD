@@ -11,6 +11,7 @@
     height: 2.5rem;
     margin: 1rem;
     overflow: hidden;
+    padding: 0.5rem;
     width: 7rem;
     transition: ease 0.5s;
 }
@@ -23,6 +24,7 @@
     height: 2.5rem;
     margin: 1rem;
     overflow: hidden;
+    padding: 0.5rem;
     width: 10%;
     transition: ease 0.5s;
 }
@@ -36,6 +38,7 @@
 }
 
 .skillName{
+    font-size: small;
     font-weight: bold;
     margin: 0;
     text-align: center;
@@ -43,6 +46,7 @@
 
 .skillNameNight{
     color: #333333;
+    font-size: small;
     font-weight: bold;
     margin: 0;
 }

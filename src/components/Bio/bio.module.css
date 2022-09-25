@@ -38,10 +38,18 @@
     margin: 0rem 0rem;
 }
 
-.name{
+.name,.nameNight{
     font-weight:900;
     font-size: 3rem;
     margin: 0rem 0rem;
+    transition: ease 0.5;
+}
+
+.nameNight:hover{
+    color: aliceblue;
+}
+.name:hover{
+    background-color: rgb(200, 200, 200);
 }
 
 .profileImg{

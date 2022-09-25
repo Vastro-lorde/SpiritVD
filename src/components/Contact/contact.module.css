@@ -1,4 +1,9 @@
 
+.alert{
+    color: green;
+    display: none;
+}
+
 .contact{
     padding: 2rem 5rem;
     text-align: left;
@@ -11,14 +16,53 @@
     text-align: center;
 }
 
-.formContainer{
+.formContainer, .formContainerNight{
+    color: var(--primary-purple);
+    font-weight: bolder;
     padding: 4rem;
+    transition: ease 1s;
+}
+.formContainer:hover{
+    box-shadow: 2px 3px 4px var(--primary-purple);
+}
+.formContainerNight:hover{
+    box-shadow: 2px 3px 4px aliceblue;
 }
 
-.fullname, .email, .message, .submit{
-    border-radius: 1rem;
+.fullname, .message{
+    border-radius: 1.5rem 1.5rem 0 0;
+    border: solid var(--primary-purple) 1px;
     display: block;
     margin: 0.5rem;
     padding: 1rem;
     width: 20rem;
+}
+
+.email{
+    border-radius: 0 0 1.5rem 1.5rem;
+    border: solid var(--primary-purple) 1px;
+    display: block;
+    margin: 0.5rem;
+    padding: 1rem;
+    width: 20rem;
+}
+
+.submit{
+    border-radius: 1.5rem 1.5rem 0 0;
+    border: solid var(--primary-purple) 1px;
+    background-color: var(--primary-purple);
+    color: aliceblue;
+    cursor: pointer;
+    display: block;
+    font-size: large;
+    font-weight: bolder;
+    margin: 0.5rem;
+    padding: 1rem;
+    width: 20rem;
+    transition: ease 0.5s;
+}
+
+.submit:hover{
+    background-color: aliceblue;
+    color: var(--primary-purple);
 }

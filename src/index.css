@@ -3,8 +3,7 @@
   --primary-purple: #070565CC;
   --night-purple: #0704b0cc;
   --orange-secondary: #FA8F21;
-
-
+  --cursor-pointer: url('https://cur.cursors-4u.net/anime/ani-12/oth1118.ani'), url('https://cur.cursors-4u.net/anime/ani-12/oth1118.png');
 }
 
 *{
@@ -12,7 +11,7 @@
 }
 
 a{
-  cursor: url('https://cur.cursors-4u.net/anime/ani-12/oth1118.ani'), url('https://cur.cursors-4u.net/anime/ani-12/oth1118.png'), pointer;
+  cursor: var(--cursor-pointer) , pointer;
   text-decoration: none;
 }
 
@@ -26,6 +25,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button{
+  cursor: var(--cursor-pointer) , pointer;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -44,4 +46,8 @@ code {
 
 img{
   width: 100%;
+}
+
+input:focus, textarea:focus{
+  outline: none;
 }
