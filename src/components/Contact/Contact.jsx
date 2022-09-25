@@ -22,9 +22,9 @@ const Contact = (props) => {
     }
 
     return (
-        <div className={style.contact} id='Contact'>
+        <div className={theme ==='light'? style.contact+' '+ style.day : style.contact} id='Contact'>
             <h2 className={theme ==='light'? 'h2Day' : 'h2Night'}>Contact Me</h2>
-            <div className={theme ==='light'? style.contactBody: style.contactBody}>
+            <div className={style.contactBody}>
                 <div>
                     <p>Interested running a project with me? <br /> Drop a message.</p>
                     <Resume />
