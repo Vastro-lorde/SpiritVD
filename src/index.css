@@ -44,6 +44,10 @@ code {
   text-align: left;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 img{
   width: 100%;
 }
