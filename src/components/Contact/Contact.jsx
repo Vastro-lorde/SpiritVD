@@ -10,21 +10,23 @@ const Contact = (props) => {
     const alertMessage = useRef(null);
     const theme = props.theme;
 
-    // const sendMessage = (e)=>{
-    //     e.preventDefault();
-    //     axios.post('https://formsubmit.co/omatsolaseud@gmail.com',{
-    //         name: fullnameInput,
-    //         email: emailInput,
-    //         message: messageInput
-    //     })
-    //     alertMessage.current.style.display = "block";
-    //     setTimeout(()=>{
-    //         alertMessage.current.style.display = 'none';
-    //         setEmailInput('');
-    //         setFullnameInput('');
-    //         setMessageInput('');
-    //     },5000)
-    // }
+    const sendMessage = (e)=>{
+        e.preventDefault();
+        axios.post('https://formsubmit.co/ajax/686caa330a2a1838551c3cbadc2f4c3d',{
+            name: fullnameInput,
+            email: emailInput,
+            message: messageInput
+        }).then(()=>{
+            alertMessage.current.style.display = "block";
+        });
+        
+        setTimeout(()=>{
+            alertMessage.current.style.display = 'none';
+            setEmailInput('');
+            setFullnameInput('');
+            setMessageInput('');
+        },5000)
+    }
 
     return (
         <div className={theme ==='light'? style.contact+' '+ style.day : style.contact} id='Contact'>
@@ -35,7 +37,7 @@ const Contact = (props) => {
                     <Resume />
                 </div>
                 <div className={theme ==='light'? style.formContainer: style.formContainerNight} >
-                    <form action="https://formsubmit.co/686caa330a2a1838551c3cbadc2f4c3d" method="POST">
+                    <form onSubmit={(e)=> sendMessage(e)}>
                         <input 
                             type="text" 
                             name="fullname" 
