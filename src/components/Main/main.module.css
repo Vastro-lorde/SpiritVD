@@ -1,5 +1,6 @@
 .main{
     color: #333333;
+    width: 100%;
 }
 
 .night{
@@ -13,7 +14,7 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    left: 90%;
+    /* left: 90%; */
     margin-top: 60vh;
     width: 4rem;
     transition: ease 1s;
@@ -24,7 +25,6 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    left: 90%;
     margin-top: 70vh;
     width: 4rem;
     transition: ease 1s;
@@ -36,7 +36,7 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    left: 90%;
+    /* left: 90%; */
     margin-top: 70vh;
     width: 4rem;
     transition: ease 1s;
@@ -48,7 +48,6 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    left: 90%;
     margin-top: 60vh;
     width: 4rem;
     transition: ease 1s;
