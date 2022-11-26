@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import Resume from '../DownloadResume/Resume';
 import style from './contact.module.css';
+import axios from 'axios';
 
 const Contact = (props) => {
     const [emailInput, setEmailInput] = useState('');
@@ -9,16 +10,21 @@ const Contact = (props) => {
     const alertMessage = useRef(null);
     const theme = props.theme;
 
-    const sendMessage = (e)=>{
-        e.preventDefault();
-        alertMessage.current.style.display = "block";
-        setTimeout(()=>{
-            alertMessage.current.style.display = 'none';
-            setEmailInput('');
-            setFullnameInput('');
-            setMessageInput('');
-        },5000)
-    }
+    // const sendMessage = (e)=>{
+    //     e.preventDefault();
+    //     axios.post('https://formsubmit.co/omatsolaseud@gmail.com',{
+    //         name: fullnameInput,
+    //         email: emailInput,
+    //         message: messageInput
+    //     })
+    //     alertMessage.current.style.display = "block";
+    //     setTimeout(()=>{
+    //         alertMessage.current.style.display = 'none';
+    //         setEmailInput('');
+    //         setFullnameInput('');
+    //         setMessageInput('');
+    //     },5000)
+    // }
 
     return (
         <div className={theme ==='light'? style.contact+' '+ style.day : style.contact} id='Contact'>
@@ -29,7 +35,7 @@ const Contact = (props) => {
                     <Resume />
                 </div>
                 <div className={theme ==='light'? style.formContainer: style.formContainerNight} >
-                    <form action="" method="post" onSubmit={(e)=>sendMessage(e)}>
+                    <form action="https://formsubmit.co/686caa330a2a1838551c3cbadc2f4c3d" method="POST">
                         <input 
                             type="text" 
                             name="fullname" 
