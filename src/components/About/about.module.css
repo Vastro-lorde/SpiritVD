@@ -36,6 +36,11 @@
     border-radius: 1.5rem;
 }
 
+.skills{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+}
+
 .titleDay{
     color: var(--primary-purple);
     text-align: left;

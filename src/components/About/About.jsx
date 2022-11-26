@@ -63,11 +63,15 @@ const About = (props) => {
             </div>
             <div>
                 <h3>Skills</h3>
-                {skills.map((e)=> <Skill name={e.name} xp={e.point} theme={theme} />)}
+                <div className={style.skills}>
+                    {skills.map((e)=> <Skill name={e.name} xp={e.point} theme={theme} />)}
+                </div>
             </div>
             <div>
                 <h3>Hobbies</h3>
-                {hobbies.map((e)=> <Skill name={e.name} xp={e.point} theme={theme} />)}
+                <div className={style.skills}>
+                    {hobbies.map((e)=> <Skill name={e.name} xp={e.point} theme={theme} />)}
+                </div>
             </div>
         </div>
     );
