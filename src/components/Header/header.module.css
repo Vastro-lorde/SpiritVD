@@ -1,6 +1,7 @@
 .a{
+    display: block;
     border-radius: 1.5rem;
-    cursor: url('https://cur.cursors-4u.net/anime/ani-12/oth1118.ani'), url('https://cur.cursors-4u.net/anime/ani-12/oth1118.png'), pointer;
+    cursor: var(--cursor-pointer), pointer;
     color: white;
     margin: 0 1rem;
     padding: 0.5rem 1rem;
@@ -79,6 +80,42 @@
     transition: 2s;
 }
 
+.menu{
+    display: none;
+    flex-direction:row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.menuLinks{
+    background:
+    /* top, transparent red, faked with gradient */ 
+    linear-gradient(
+      rgba(7, 5, 101, 0.9), 
+      rgba(58, 5, 101, 0.7)
+    ),
+    /* bottom, image */
+    url('../../assets/header-bg.png');
+    box-shadow: 1px 2px 4px var(--primary-purple);
+    position: absolute;
+    top: 13%;
+    right: 1%;
+    z-index: 1;
+}
+
+.menuIcon{
+    color: aliceblue;
+    cursor: var(--cursor-pointer), pointer;
+    font-size: larger;
+    padding: 0.5rem;
+}
+
+.menuIcon:hover{
+    background-color: rgba(240, 248, 255, 0.544);
+    color: var(--primary-purple);
+}
+
 .night{
     background-color: black;
     color: whitesmoke;
@@ -87,4 +124,14 @@
 .resume{
     border: 0.1rem solid aliceblue;
     border-radius: 1.5rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .links{
+        display: none;
+    }
+
+    .menu{
+        display: flex;
+    }
 }

@@ -13,7 +13,7 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    margin-left: 94vw;
+    left: 90%;
     margin-top: 60vh;
     width: 4rem;
     transition: ease 1s;
@@ -24,7 +24,7 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    margin-left: 94vw;
+    left: 90%;
     margin-top: 70vh;
     width: 4rem;
     transition: ease 1s;
@@ -36,7 +36,7 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    margin-left: 94vw;
+    left: 90%;
     margin-top: 70vh;
     width: 4rem;
     transition: ease 1s;
@@ -48,7 +48,7 @@
     display: none;
     padding: 1rem 0.5rem;
     position: fixed;
-    margin-left: 94vw;
+    left: 90%;
     margin-top: 60vh;
     width: 4rem;
     transition: ease 1s;

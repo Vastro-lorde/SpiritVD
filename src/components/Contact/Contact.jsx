@@ -11,7 +11,6 @@ const Contact = (props) => {
 
     const sendMessage = (e)=>{
         e.preventDefault();
-        alert(emailInput + '\n' + fullnameInput + '\n' + messageInput + alertMessage.current.innerText);
         alertMessage.current.style.display = "block";
         setTimeout(()=>{
             alertMessage.current.style.display = 'none';

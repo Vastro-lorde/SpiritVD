@@ -4,7 +4,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    width: 40%;
+    width: 85%;
     transition: ease 0.5s;
 }
 
@@ -13,7 +13,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    width: 40%;
+    width: 85%;
     transition: ease 0.5s;
 }
 
@@ -52,4 +52,10 @@
 
 .schoolNight:hover{
     color: whitesmoke;
+}
+
+@media only screen and (max-width: 600px) {
+    .education{
+        flex-direction: column;
+    }
 }
