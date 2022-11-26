@@ -18,6 +18,7 @@
     margin-top: 60vh;
     width: 4rem;
     transition: ease 1s;
+    z-index: 1;
 }
 .down{
     background-color: var(--primary-purple);
@@ -28,6 +29,7 @@
     margin-top: 70vh;
     width: 4rem;
     transition: ease 1s;
+    z-index: 1;
 }
 
 .downNight{
@@ -40,6 +42,7 @@
     margin-top: 70vh;
     width: 4rem;
     transition: ease 1s;
+    z-index: 1;
 }
 
 .upNight{
@@ -51,6 +54,7 @@
     margin-top: 60vh;
     width: 4rem;
     transition: ease 1s;
+    z-index: 1;
 }
 
 .up,.down,.downNight,.upNight{
