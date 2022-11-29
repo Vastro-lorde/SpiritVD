@@ -42,7 +42,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.2rem 5rem;
+    gap: 20%;
+    padding: 0.2rem 2rem;
     transition: ease 4s;
 }
 
@@ -86,6 +87,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    position: relative;
 }
 
 .menuLinks{
@@ -98,9 +100,9 @@
     /* bottom, image */
     url('../../assets/header-bg.png');
     box-shadow: 1px 2px 4px var(--primary-purple);
+    font-size: x-small;
     position: absolute;
-    top: 13%;
-    right: 1%;
+    top: 100%;
     z-index: 1;
 }
 
