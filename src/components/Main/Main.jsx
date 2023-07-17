@@ -1,26 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './main.module.css';
 import Bio from '../Bio/Bio';
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import About from '../About/About.jsx';
 // import Experience from '../Experience/Experience';
 import Contact from '../Contact/Contact';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const Main = () => {
-    const [theme, setTheme] = useState('dark'||'light');
+    const { theme } =useContext(ThemeContext)
     const scrollUp = useRef(0);
     const scrollDown = useRef(0);
     // const navigate = useNavigate();
-
-    
-    useEffect(() => {
-        const newTheme = localStorage.getItem('theme');
-        if (newTheme === null) {
-          setTheme('light');
-        } else {
-          setTheme(newTheme);
-        }
-      }, []);
 
       window.onscroll = (e)=>{
         scrollUp.current.style.display = 'block';
@@ -63,10 +54,10 @@ const Main = () => {
               Bottom
             </div>
           {/* </a> */}
-            <Bio theme={theme} />
-            <About theme={theme} />
+            <Bio />
+            <About />
             {/* <Experience theme={theme} /> */}
-            <Contact theme={theme}/>
+            <Contact />
         </div>
     );
 }

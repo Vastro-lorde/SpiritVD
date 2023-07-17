@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './bio.module.css';
-import profileImg from '../../assets/profile-img.jpeg';
+import profileImg from '../../assets/profile-img.jpg';
 import facebook from '../../assets/facebook.svg';
 import github from '../../assets/github.svg';
 import linkedin from '../../assets/linkedin.svg';
 import twitter from '../../assets/twitter.svg';
+import { ThemeContext } from '../../context/ThemeContext';
 
-const Bio = (props) => {
-    const theme = props.theme
+const Bio = () => {
+    const { theme } =useContext(ThemeContext)
     return (
         <div className={style.Bio} id="Bio">
             <div className={style.info}>

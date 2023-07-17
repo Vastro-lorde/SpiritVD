@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './job.module.css';
+import { ThemeContext } from '../../context/ThemeContext';
 
-const Job = (props) => {
-    const theme = props.theme;
+const Job = () => {
+    const { theme } =useContext(ThemeContext)
     return (
         <div className={theme ==='light'? style.JobDay : style.jobNight}>
             Job

@@ -53,6 +53,9 @@
 }
 
 .profileImg{
+    background-image: url(../../assets/profile-img-small.png);
+    background-size: cover;
+    background-position: center;
     border-radius: 0 6rem;
     filter: drop-shadow( 16px 16px 0px var(--primary-purple));
     overflow:hidden;

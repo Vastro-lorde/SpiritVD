@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './education.module.css';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const Education = (props) => {
-    const theme = props.theme;
+    const { theme } =useContext(ThemeContext)
     return (
         <div className={theme === 'light'? style.education : style.educationNight}>
             <div className={theme === 'light'? style.schoolLogoDay : style.schoolLogoNight}>

@@ -1,14 +1,15 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
 import Resume from '../DownloadResume/Resume';
 import style from './contact.module.css';
 import axios from 'axios';
+import { ThemeContext } from '../../context/ThemeContext';
 
-const Contact = (props) => {
+const Contact = () => {
     const [emailInput, setEmailInput] = useState('');
     const [fullnameInput, setFullnameInput] = useState('');
     const [messageInput, setMessageInput] = useState('');
     const alertMessage = useRef(null);
-    const theme = props.theme;
+    const { theme } =useContext(ThemeContext)
 
     const sendMessage = (e)=>{
         e.preventDefault();
