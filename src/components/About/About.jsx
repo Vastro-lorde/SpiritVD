@@ -9,20 +9,20 @@ const About = (props) => {
     const { theme } =useContext(ThemeContext)
     // const navigate = useNavigate();
     const skills = [
-        {name: 'C#', point: '7'},
-        {name: 'C', point: '5'},
-        {name: 'C++', point: '2'},
-        {name: 'Javascript', point: '8'},
-        {name: '.NET', point: '7'},
-        {name: 'NodeJs', point: '8'},
-        {name: 'ReactJs', point: '8'},
-        {name: 'VueJs', point: '4'},
-        {name: 'HTML', point: '8'},
-        {name: 'CSS', point: '8'},
-        {name: 'Golang', point: '6'},
-        {name: 'Agile', point: '9'},
-        {name: 'Graphics', point: '9'},
-        {name: 'Photography', point: '7'},
+        {name: 'C#'},
+        {name: 'C'},
+        {name: 'C++'},
+        {name: 'Javascript'},
+        {name: '.NET'},
+        {name: 'NodeJs'},
+        {name: 'ReactJs'},
+        {name: 'VueJs'},
+        {name: 'HTML'},
+        {name: 'CSS'},
+        {name: 'Golang'},
+        {name: 'Agile'},
+        {name: 'Graphics'},
+        {name: 'Photography'},
     ]
 
     const hobbies = [
