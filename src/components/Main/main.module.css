@@ -16,7 +16,7 @@
     position: fixed;
     /* left: 90%; */
     margin-top: 60vh;
-    width: 4rem;
+    width: max-content;
     transition: ease 1s;
     z-index: 1;
 }
@@ -27,7 +27,7 @@
     padding: 1rem 0.5rem;
     position: fixed;
     margin-top: 70vh;
-    width: 4rem;
+    width: max-content;
     transition: ease 1s;
     z-index: 1;
 }
@@ -40,7 +40,7 @@
     position: fixed;
     /* left: 90%; */
     margin-top: 70vh;
-    width: 4rem;
+    width: max-content;
     transition: ease 1s;
     z-index: 1;
 }
@@ -52,7 +52,7 @@
     padding: 1rem 0.5rem;
     position: fixed;
     margin-top: 60vh;
-    width: 4rem;
+    width: max-content;
     transition: ease 1s;
     z-index: 1;
 }

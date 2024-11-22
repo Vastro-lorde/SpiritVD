@@ -33,6 +33,15 @@
 .jobList {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 2rem;
+}
+
+/* Target even-numbered jobs */
+.jobList > div:nth-child(even) {
+    align-self: flex-end;
+}
+
+/* Target odd-numbered jobs */
+.jobList > div:nth-child(odd) {
+    align-self: flex-start;
 }

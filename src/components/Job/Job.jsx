@@ -4,7 +4,18 @@ import { ThemeContext } from '../../context/ThemeContext';
 
 const Job = ({ experience }) => {
     const { theme } = useContext(ThemeContext);
-    const { company, position, duration, responsibilities } = experience;
+    const { company, position, startDate, endDate, responsibilities } = experience;
+    const formatDate = (dateString) => {
+        if (!dateString) return 'Present';
+        
+        const date = new Date(dateString + '-01'); // Add day for valid date
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long'
+        });
+    };
+
+    const duration = `${formatDate(startDate)} – ${formatDate(endDate)}`;
     return (
         <div className={theme ==='light'? style.JobDay : style.jobNight}>
             <div className={style.header}>
