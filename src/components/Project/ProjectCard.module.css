@@ -1,0 +1,32 @@
+.projectCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 300px;
+    margin: 16px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.projectCard:hover {
+    transform: scale(1.05);
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.title {
+    padding: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f8f8f8;
+}
