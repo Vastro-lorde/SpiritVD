@@ -1,5 +1,4 @@
 import Delsulogo from '../assets/Delsu.png';
-import facebook from '../assets/facebook.svg';
 import github from '../assets/github.svg';
 import linkedin from '../assets/linkedin.svg';
 import twitter from '../assets/twitter.svg';
@@ -53,11 +52,6 @@ export const educations =[
 ]
 
 export const socialMedias = [
-    {
-        name: 'Facebook',
-        link: 'https://www.facebook.com/omatsolaseun',
-        logo: facebook
-    },
     {
         name: 'Twitter',
         link: 'https://twitter.com/vastroLord',
