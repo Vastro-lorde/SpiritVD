@@ -30,7 +30,7 @@ const Contact = () => {
     }
 
     return (
-        <div className={theme ==='light'? style.contact+' '+ style.day : style.contact} id='Contact'>
+        <div className={theme ==='light'? 'sectionContainerDay' : 'sectionContainer'} id='Contact'>
             <h2 className={theme ==='light'? 'h2Day' : 'h2Night'}>Contact Me</h2>
             <div className={style.contactBody}>
                 <div>

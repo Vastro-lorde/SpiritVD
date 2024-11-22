@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import style from './bio.module.css';
 import profileImg from '../../assets/profile-img.jpg';
-import facebook from '../../assets/facebook.svg';
-import github from '../../assets/github.svg';
-import linkedin from '../../assets/linkedin.svg';
-import twitter from '../../assets/twitter.svg';
+
 import { ThemeContext } from '../../context/ThemeContext';
+import { socialMedias } from '../../helpers/Constants';
+import SocialMediaLinks from './SocialMediaLinks';
 
 const Bio = () => {
     const { theme } =useContext(ThemeContext)
@@ -22,18 +21,7 @@ const Bio = () => {
                     <img src={profileImg} alt='profile'/>
                 </div>
                 <div className={style.socialLinks}>
-                    <div className={style.facebook + ' ' + style.social}>
-                        <a href='https://www.facebook.com/omatsolaseun' target='_blank' rel="noopener noreferrer"><img src={facebook} alt='facebook'/></a>
-                    </div>
-                    <div className={style.twitter  + ' ' + style.social}>
-                        <a href='https://twitter.com/vastroLord' target='_blank' rel="noopener noreferrer"><img src={twitter} alt='twitter'/></a>
-                    </div>
-                    <div className={style.linkedin  + ' ' + style.social}>
-                        <a href='https://www.linkedin.com/in/seun-omatsola-429a69166' target='_blank' rel="noopener noreferrer"><img src={linkedin} alt='linkedin'/></a>
-                    </div>
-                    <div className={style.github  + ' ' + style.social}>
-                        <a href='https://github.com/Vastro-lorde' target='_blank' rel="noopener noreferrer"><img src={github} alt='github'/></a>
-                    </div>
+                    { socialMedias.map((socialMedia,index)=><SocialMediaLinks key={index} socialMedia={socialMedia} style={style}/>) }
                 </div>
             </div>
         </div>

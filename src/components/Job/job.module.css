@@ -1,0 +1,95 @@
+.jobContainer {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: box-shadow 0.3s ease;
+}
+
+.jobContainer:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.jobDay {
+    background-color: white;
+    color: #1a202c;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: box-shadow 0.3s ease;
+}
+
+.jobDay:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.jobNight {
+    background-color: #2d3748;
+    color: #f7fafc;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #4a5568;
+    transition: box-shadow 0.3s ease;
+}
+
+.jobNight:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+    margin-bottom: 1rem;
+}
+
+.position {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.company {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #4299e1;
+    margin-bottom: 0.25rem;
+}
+
+.companyNight {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #63b3ed;
+    margin-bottom: 0.25rem;
+}
+
+.duration {
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.durationNight {
+    font-size: 0.875rem;
+    color: #a0aec0;
+}
+
+.responsibilities {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.responsibility {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.responsibilityNight {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+}

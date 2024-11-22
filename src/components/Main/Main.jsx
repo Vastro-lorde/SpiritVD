@@ -6,6 +6,7 @@ import About from '../About/About.jsx';
 // import Experience from '../Experience/Experience';
 import Contact from '../Contact/Contact';
 import { ThemeContext } from '../../context/ThemeContext';
+import Experience from '../Experience/Experience.jsx';
 
 const Main = () => {
     const { theme } =useContext(ThemeContext)
@@ -56,7 +57,7 @@ const Main = () => {
           {/* </a> */}
             <Bio />
             <About />
-            {/* <Experience theme={theme} /> */}
+            <Experience theme={theme} />
             <Contact />
         </div>
     );

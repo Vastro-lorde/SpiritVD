@@ -2,52 +2,15 @@ import React, { useContext } from 'react';
 import style from './about.module.css';
 import Skill from '../skill/Skill.jsx';
 import Education from '../Education/Education';
-import Delsulogo from '../../assets/Delsu.png';
 import { ThemeContext } from '../../context/ThemeContext';
+import { educations, hobbies, skills } from '../../helpers/Constants.js';
 
 const About = (props) => {
     const { theme } =useContext(ThemeContext)
     // const navigate = useNavigate();
-    const skills = [
-        {name: 'C#'},
-        {name: 'C'},
-        {name: 'C++'},
-        {name: 'Javascript'},
-        {name: '.NET'},
-        {name: 'NodeJs'},
-        {name: 'ReactJs'},
-        {name: 'VueJs'},
-        {name: 'HTML'},
-        {name: 'CSS'},
-        {name: 'Golang'},
-        {name: 'Agile'},
-        {name: 'Graphics'},
-        {name: 'Photography'},
-    ]
-
-    const hobbies = [
-        {name: 'Poetry'},
-        {name: 'Singing'},
-        {name: 'Games'},
-        {name: 'Researching'},
-        {name: 'Photography'},
-        {name: 'Drawing'},
-        {name: 'Reading'}
-    ]
-
-    const educations =[
-        {
-            school: 'Delta State University',
-            schoolUrl: 'https://delsu.org/',
-            schoolLogo: Delsulogo,
-            degree: 'Bachelor of Science, Mathematics',
-            location: 'Abraka',
-            year: '2016'
-        }
-    ]
     
     return (
-        <div className={theme ==='light'? style.AboutDay : style.About } id='About'>
+        <div className={theme ==='light'? 'sectionContainerDay' : 'sectionContainer' } id='About'>
             <h2 className={theme ==='light'? 'h2Day' : 'h2Night'}>About me</h2>
             <div className={style.educations}>
                 <h3>Education</h3>

@@ -55,3 +55,14 @@ img{
 input:focus, textarea:focus{
   outline: none;
 }
+
+.sectionContainer{
+  padding: 2rem;
+  text-align: left;
+}
+
+.sectionContainerDay{
+  background-color: #EBEBEBCC;
+  padding: 2rem;
+  text-align: left;
+}

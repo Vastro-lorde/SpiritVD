@@ -9,7 +9,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 // import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-    const { theme, setTheme } =useContext(ThemeContext)
+    const { theme, setTheme } = useContext(ThemeContext)
     const [menuDisplay, setMenuDisplay] = useState('none')
     // const navigate = useNavigate();
    
