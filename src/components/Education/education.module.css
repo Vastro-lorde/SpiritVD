@@ -1,61 +1,16 @@
-.education{
-    box-shadow: 3px 4px 5px var(--primary-purple);
+.educations {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    width: 85%;
-    transition: ease 0.5s;
+    justify-content: center;
 }
 
-.educationNight{
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    width: 85%;
-    transition: ease 0.5s;
+/* Target even-numbered jobs */
+.educations > div:nth-child(even) {
+    align-self: flex-end;
 }
 
-.educationNight:hover{
-    box-shadow: 1px 2px 1px rgba(245, 245, 245, 0.586);
-}
-.education:hover{
-    box-shadow: 1px 2px 4px var(--primary-purple);
-}
-
-.school{
-    color: #333333;
-    text-decoration: none;
-}
-
-.schoolLogoDay,.schoolLogoNight{
-    width: 5rem;
-}
-
-.schoolLogoNight:hover{
-    filter: drop-shadow( 1px 1px 1px rgba(245, 245, 245, 0.586) );
-}
-
-.schoolLogoDay:hover{
-    filter: drop-shadow( 1px 1px 1px var(--primary-purple) );
-}
-
-.schoolNight{
-    color: rgb(200, 200, 200);
-}
-
-.school:hover{
-    color: var(--primary-purple);
-    filter: drop-shadow( 1px 1px 1px rgba(245, 245, 245, 0.586) );
-}
-
-.schoolNight:hover{
-    color: whitesmoke;
-}
-
-@media only screen and (max-width: 600px) {
-    .education{
-        flex-direction: column;
-    }
+/* Target odd-numbered jobs */
+.educations > div:nth-child(odd) {
+    align-self: flex-start;
 }

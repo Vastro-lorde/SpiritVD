@@ -5,6 +5,7 @@ import About from '../About/About.jsx';
 import Contact from '../Contact/Contact';
 import { ThemeContext } from '../../context/ThemeContext';
 import Experience from '../Experience/Experience.jsx';
+import Education from '../Education/Education.jsx';
 
 const Main = () => {
     const { theme } = useContext(ThemeContext);
@@ -18,11 +19,12 @@ const Main = () => {
       bio: useRef(null),
       about: useRef(null),
       experience: useRef(null),
+      education: useRef(null),
       contact: useRef(null),
   };
 
   // Memoize sectionOrder to prevent unnecessary recalculations
-  const sectionOrder = useMemo(() => ['bio', 'about', 'experience', 'contact'], []);
+  const sectionOrder = useMemo(() => ['bio', 'about', 'experience', 'education', 'contact'], []);
 
     useEffect(() => {
         let timeout;
@@ -104,6 +106,9 @@ const Main = () => {
             </div>
             <div ref={sections.experience}>
                 <Experience theme={theme} />
+            </div>
+            <div ref={sections.education}>
+                <Education />
             </div>
             <div ref={sections.contact}>
                 <Contact />

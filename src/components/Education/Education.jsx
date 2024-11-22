@@ -1,24 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
 import style from './education.module.css';
+import { educations } from '../../helpers/Constants'
+import EducationCard from './EducationCard';
 import { ThemeContext } from '../../context/ThemeContext';
 
-const Education = (props) => {
-    const { theme } =useContext(ThemeContext)
+const Education = () => {
+    const { theme } = useContext(ThemeContext)
     return (
-        <div className={theme === 'light'? style.education : style.educationNight}>
-            <div className={theme === 'light'? style.schoolLogoDay : style.schoolLogoNight}>
-                <a href={props.schoolUrl} target='_blank' rel="noopener noreferrer">
-                    <img src={props.schoolLogo} alt="" />
-                </a>
-            </div>
-            <div>
-                <p>{props.degree}</p>
-                <a href={props.schoolUrl} target='_blank' rel="noopener noreferrer" className={theme === 'light'? style.school : style.schoolNight} >{props.school}</a>
-                <span>, {props.location}</span>
-                <p><i>{props.year}</i></p>
-            </div>
+        <div className={theme ==='light'? 'sectionContainerDay' : 'sectionContainer' } id='Education'>
+            <h2 className={theme ==='light'? 'h2Day' : 'h2Night'}>Education</h2>
+            <div className={style.educations}>
+                {educations.map((education,index)=> 
+                <div key={index}>
+                    <EducationCard 
+                        school={education.school} 
+                        schoolUrl={education.schoolUrl} 
+                        schoolLogo={education.schoolLogo}
+                        location={education.location} 
+                        year={education.year} 
+                        degree={education.degree} 
+                    />
+                </div>
+                
+                )}
+                
         </div>
-    );
+        </div>
+    )
 }
 
 export default Education;

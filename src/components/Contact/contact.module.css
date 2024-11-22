@@ -14,7 +14,9 @@
     align-items: center;
     justify-content: space-around;
     text-align: center;
+    transition: ease 1s;
 }
+
 
 .day{
     background-color: #EBEBEBCC;
