@@ -8,15 +8,16 @@ import { ThemeContext } from './context/ThemeContext';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(
-    () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+    () => (localStorage.getItem('theme') && localStorage.getItem('theme') === 'dark') ?? (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
   );
+
   const [theme, setTheme] = useState(isDarkMode? 'dark': 'light');
 
   useEffect(() => {
     const handleDarkModeChange = (e) => {
       setIsDarkMode(e.matches);
     };
-
+    
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
 
