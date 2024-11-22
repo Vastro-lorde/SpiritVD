@@ -23,7 +23,7 @@
 .formContainer, .formContainerNight{
     color: var(--primary-purple);
     font-weight: bolder;
-    padding: 4rem;
+    padding: 2rem;
     transition: ease 1s;
 }
 .formContainer:hover{
