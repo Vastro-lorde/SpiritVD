@@ -30,7 +30,7 @@
     background:
     /* top, transparent red, faked with gradient */ 
     linear-gradient(
-      rgba(7, 5, 101, 0.9), 
+      rgba(7, 5, 101, 1), 
       rgba(7, 5, 101, 0.7)
     ),
     /* bottom, image */
@@ -38,6 +38,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    position: fixed;
     
     display: flex;
     align-items: center;
@@ -45,6 +46,8 @@
     gap: 20%;
     /*  */
     transition: all ease-in-out 4s;
+    width: 100%;
+    z-index: 99;
 }
 
 .Header:hover{

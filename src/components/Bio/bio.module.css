@@ -24,7 +24,7 @@
 .info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     padding: 2rem;
     text-align: left;
 
@@ -69,7 +69,7 @@
     border-radius: 0 6rem;
     filter: drop-shadow( 16px 16px 0px var(--primary-purple));
     overflow:hidden;
-    width: 15rem;
+    width: 30rem;
     transition: ease-in 0.5s;
 }
 
@@ -85,8 +85,8 @@
     justify-content: space-between;
     padding: 1rem;
     margin-right: 2rem;
-    height: 20rem;
-    width: 20rem;
+    height: 30rem;
+    width: 30rem;
 }
 
 .socialLinks{
@@ -108,5 +108,8 @@
     }
     .summary{
         padding-right: 0;
+    }
+    .profileImg, .profileImgContainer{
+        width: 20rem;
     }
 }

@@ -4,7 +4,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    width: 85%;
+    width: 50%;
     transition: ease 0.5s;
 }
 
@@ -13,7 +13,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    width: 85%;
+    width: 50%;
     transition: ease 0.5s;
 }
 
@@ -55,7 +55,8 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .education{
+    .education, .educationNight{
         flex-direction: column;
+        width: 100%;
     }
 }

@@ -11,8 +11,8 @@ const Education = () => {
             <h2 className={theme ==='light'? 'h2Day' : 'h2Night'}>Education</h2>
             <div className={style.educations}>
                 {educations.map((education,index)=> 
-                <div key={index}>
                     <EducationCard 
+                        key={index}
                         school={education.school} 
                         schoolUrl={education.schoolUrl} 
                         schoolLogo={education.schoolLogo}
@@ -20,7 +20,6 @@ const Education = () => {
                         year={education.year} 
                         degree={education.degree} 
                     />
-                </div>
                 
                 )}
                 

@@ -1,11 +1,15 @@
 .main{
     color: #333333;
     width: 100%;
+    padding-top: 10vh;
+    transition: ease 4s;
 }
 
 .night{
     background-color: #333333;
     color: rgb(200, 200, 200);
+    padding-top: 10vh;
+    transition: ease 4s;
 }
 
 .up{
@@ -59,4 +63,10 @@
 
 .up,.down,.downNight,.upNight{
     cursor:var(--cursor-pointer), pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    .main, .night{
+        padding-top: 0;
+    }
 }

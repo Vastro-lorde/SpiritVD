@@ -17,7 +17,7 @@ const Job = ({ experience }) => {
 
     const duration = `${formatDate(startDate)} – ${formatDate(endDate)}`;
     return (
-        <div className={theme ==='light'? style.JobDay : style.jobNight}>
+        <div className={theme ==='light'? style.jobDay : style.jobNight}>
             <div className={style.header}>
                 <h3 className={style.position}>{position}</h3>
                 <p className={theme === 'light' ? style.company : style.companyNight}>

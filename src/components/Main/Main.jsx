@@ -6,6 +6,8 @@ import Contact from '../Contact/Contact';
 import { ThemeContext } from '../../context/ThemeContext';
 import Experience from '../Experience/Experience.jsx';
 import Education from '../Education/Education.jsx';
+import { MotionDiv } from '../../helpers/motion.js';
+
 
 const Main = () => {
     const { theme } = useContext(ThemeContext);
@@ -82,7 +84,14 @@ const Main = () => {
     };
 
     return (
-        <div className={theme === 'light' ? style.main : style.night}>
+        <MotionDiv 
+            className={theme === 'light' ? style.main : style.night}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            backdropFilter={theme === 'light' ? 'blur(10px)' : 'blur(0px)'}
+            
+        >
+            
             <div 
                 className={theme === 'light' ? style.up : style.upNight} 
                 ref={scrollUp}
@@ -113,7 +122,7 @@ const Main = () => {
             <div ref={sections.contact}>
                 <Contact />
             </div>
-        </div>
+        </MotionDiv>
     );
 }
 

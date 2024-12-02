@@ -6,12 +6,17 @@ import { useState } from 'react';
 import Resume from '../DownloadResume/Resume';
 import {GiHamburgerMenu} from 'react-icons/gi';
 import { ThemeContext } from '../../context/ThemeContext';
+import { MotionDiv } from '../../helpers/motion';
 // import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const { theme, setTheme } = useContext(ThemeContext)
     const [menuDisplay, setMenuDisplay] = useState('none')
     // const navigate = useNavigate();
+    const boxVariants = {
+        hidden: { opacity: 0, scale: 0.8 },
+        visible: { opacity: 1, scale: 1 },
+      }
    
     const toggleTheme = ()=>{
         if (theme === 'light') {
@@ -52,7 +57,15 @@ const Header = () => {
                 <Resume />
                 
             </div>
-            <div className={style.largMenu}>
+            
+            <MotionDiv 
+                className={style.largMenu}
+                variants={boxVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{ skew: 1.1 }}
+                transition={{ duration: 0.5 }}
+            >
                 <div>
                         <a href='/'><p className={style.logo}>SpiritVD</p></a>
                 </div> 
@@ -68,7 +81,7 @@ const Header = () => {
                     </div>}
                 </div>
                 
-            </div>
+            </MotionDiv>
         </div>
     );
 }
