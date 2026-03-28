@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { useState } from "react";
@@ -11,6 +12,7 @@ const pageTitles: Record<string, string> = {
   "/admin/projects": "Project",
   "/admin/blogs": "Blogs",
   "/admin/profile": "Profile",
+  "/admin/change-password": "Change Password",
 };
 
 export default function AdminHeader() {
@@ -45,7 +47,14 @@ export default function AdminHeader() {
       </div>
 
       {menuOpen && (
-        <div className="absolute right-4 top-14 z-50 w-40 rounded-lg border border-border bg-white py-1 shadow-lg dark:border-border-dark dark:bg-surface-dark">
+        <div className="absolute right-4 top-14 z-50 w-48 rounded-lg border border-border bg-white py-1 shadow-lg dark:border-border-dark dark:bg-surface-dark">
+          <Link
+            href="/admin/change-password"
+            onClick={() => setMenuOpen(false)}
+            className="block w-full px-4 py-2 text-left text-sm text-primary hover:bg-primary/5 dark:text-white dark:hover:bg-white/5"
+          >
+            Change Password
+          </Link>
           <button
             onClick={() => signOut({ callbackUrl: "/login" })}
             className="block w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"

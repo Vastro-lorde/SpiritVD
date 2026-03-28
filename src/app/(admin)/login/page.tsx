@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaGoogle, FaLinkedinIn, FaGithub } from "react-icons/fa";
 import ThemeToggle from "@/components/shared/ThemeToggle";
+import PasswordInput from "@/components/shared/PasswordInput";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -58,13 +59,11 @@ export default function LoginPage() {
             required
             className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-sm outline-none transition-colors focus:border-primary dark:border-border-dark dark:text-white"
           />
-          <input
-            type="password"
+          <PasswordInput
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-sm outline-none transition-colors focus:border-primary dark:border-border-dark dark:text-white"
           />
 
           {error && (
