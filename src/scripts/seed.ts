@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { getEnv } from "@/lib/config/env";
 
-const MONGODB_URI = getEnv().MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
-  console.error("MONGODB_URI env variable is required", MONGODB_URI);
+  console.error("MONGODB_URI env variable is required");
   process.exit(1);
 }
 

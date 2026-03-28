@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "npx tsx src/scripts/seed.ts"
+    "seed": "npx tsx --env-file=.env src/scripts/seed.ts"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",
