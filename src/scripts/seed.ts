@@ -18,7 +18,7 @@ async function seed() {
   await db.collection("users").deleteMany({});
   await db.collection("users").insertOne({
     name: "Seun Denial Omatsola",
-    email: "admin@protfolio.com",
+    email: "omatsolaseund@gmail.com",
     passwordHash,
     bio: "I am a passionate software engineer with over 5 years of professional experience building modern web applications. My journey started with front-end development, but I quickly transitioned into full-stack engineering to architect robust systems from end to end. Currently, I am focused on creating highly performant SaaS platforms, contributing to open-source tools, and continuously exploring emerging technologies like AI integrations and edge computing.",
     title: "Software Engineer (.NET/JS)",
