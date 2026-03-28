@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { FaGoogle, FaLinkedinIn, FaGithub } from "react-icons/fa";
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import PasswordInput from "@/components/shared/PasswordInput";
@@ -12,24 +11,28 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   async function handleCredentialLogin(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    if (result?.error) {
-      setError("Invalid email or password");
+      if (result?.error) {
+        setError("Invalid email or password");
+        setLoading(false);
+      } else {
+        window.location.href = "/admin";
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
       setLoading(false);
-    } else {
-      router.push("/admin");
     }
   }
 
