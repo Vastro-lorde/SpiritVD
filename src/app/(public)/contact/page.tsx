@@ -6,9 +6,14 @@ import { FiMail, FiPhone, FiDownload } from "react-icons/fi";
 import ContactForm from "@/components/public/ContactForm";
 
 async function getUser() {
-  await connectDB();
-  const user = await User.findOne().select("-passwordHash").lean();
-  return user ? JSON.parse(JSON.stringify(user)) : null;
+  try {
+    await connectDB();
+    const user = await User.findOne().select("-passwordHash").lean();
+    return user ? JSON.parse(JSON.stringify(user)) : null;
+  } catch (err) {
+    console.error("Failed to load user data:", err);
+    return null;
+  }
 }
 
 export default async function ContactPage() {

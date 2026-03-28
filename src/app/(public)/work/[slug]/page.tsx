@@ -8,25 +8,34 @@ import { Project } from "@/lib/models";
 import { ProjectStatus } from "@/enums";
 
 async function getProject(slug: string) {
-  await connectDB();
-  const project = await Project.findOneAndUpdate(
-    { slug, status: ProjectStatus.PUBLISHED },
-    { $inc: { viewCount: 1 } },
-    { new: true }
-  ).lean();
-  if (!project) return null;
-  return JSON.parse(JSON.stringify(project));
+  try {
+    await connectDB();
+    const project = await Project.findOneAndUpdate(
+      { slug, status: ProjectStatus.PUBLISHED },
+      { $inc: { viewCount: 1 } },
+      { new: true }
+    ).lean();
+    if (!project) return null;
+    return JSON.parse(JSON.stringify(project));
+  } catch (err) {
+    console.error("Failed to load project:", err);
+    return null;
+  }
 }
 
 async function getNextProject(currentSlug: string) {
-  await connectDB();
-  const next = await Project.findOne({
-    slug: { $ne: currentSlug },
-    status: ProjectStatus.PUBLISHED,
-  })
-    .sort({ createdAt: -1 })
-    .lean();
-  return next ? JSON.parse(JSON.stringify(next)) : null;
+  try {
+    await connectDB();
+    const next = await Project.findOne({
+      slug: { $ne: currentSlug },
+      status: ProjectStatus.PUBLISHED,
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return next ? JSON.parse(JSON.stringify(next)) : null;
+  } catch {
+    return null;
+  }
 }
 
 export default async function ProjectDetailPage({

@@ -7,11 +7,16 @@ import { Project } from "@/lib/models";
 import { ProjectStatus } from "@/enums";
 
 async function getProjects() {
-  await connectDB();
-  const projects = await Project.find({ status: ProjectStatus.PUBLISHED })
-    .sort({ featured: -1, createdAt: -1 })
-    .lean();
-  return JSON.parse(JSON.stringify(projects));
+  try {
+    await connectDB();
+    const projects = await Project.find({ status: ProjectStatus.PUBLISHED })
+      .sort({ featured: -1, createdAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(projects));
+  } catch (err) {
+    console.error("Failed to load projects:", err);
+    return [];
+  }
 }
 
 export default async function WorkPage() {

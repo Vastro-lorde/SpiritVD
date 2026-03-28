@@ -11,17 +11,22 @@ import {
 } from "react-icons/fa";
 
 async function getData() {
-  await connectDB();
-  const [user, experiences, education] = await Promise.all([
-    User.findOne().select("-passwordHash").lean(),
-    Experience.find().sort({ order: 1, createdAt: -1 }).lean(),
-    Education.find().lean(),
-  ]);
-  return {
-    user: user ? JSON.parse(JSON.stringify(user)) : null,
-    experiences: JSON.parse(JSON.stringify(experiences)),
-    education: JSON.parse(JSON.stringify(education)),
-  };
+  try {
+    await connectDB();
+    const [user, experiences, education] = await Promise.all([
+      User.findOne().select("-passwordHash").lean(),
+      Experience.find().sort({ order: 1, createdAt: -1 }).lean(),
+      Education.find().lean(),
+    ]);
+    return {
+      user: user ? JSON.parse(JSON.stringify(user)) : null,
+      experiences: JSON.parse(JSON.stringify(experiences)),
+      education: JSON.parse(JSON.stringify(education)),
+    };
+  } catch (err) {
+    console.error("Failed to load about page data:", err);
+    return { user: null, experiences: [], education: [] };
+  }
 }
 
 function formatDate(date: string | null) {

@@ -8,43 +8,55 @@ import { ProjectStatus, BlogStatus } from "@/enums";
 import { FiDownload } from "react-icons/fi";
 import { FaLinkedinIn, FaGithub, FaTwitter } from "react-icons/fa";
 
+const fallbackData = {
+  user: null as null,
+  projects: [] as never[],
+  blogs: [] as never[],
+  stats: { projects: 0, experience: 0, totalViews: 0 },
+};
+
 async function getData() {
-  await connectDB();
-  const [user, projects, blogs, experienceCount] = await Promise.all([
-    User.findOne().select("-passwordHash").lean(),
-    Project.find({ status: ProjectStatus.PUBLISHED })
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .lean(),
-    Blog.find({ status: BlogStatus.PUBLISHED })
-      .sort({ createdAt: -1 })
-      .limit(2)
-      .lean(),
-    Experience.countDocuments(),
-  ]);
+  try {
+    await connectDB();
+    const [user, projects, blogs, experienceCount] = await Promise.all([
+      User.findOne().select("-passwordHash").lean(),
+      Project.find({ status: ProjectStatus.PUBLISHED })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean(),
+      Blog.find({ status: BlogStatus.PUBLISHED })
+        .sort({ createdAt: -1 })
+        .limit(2)
+        .lean(),
+      Experience.countDocuments(),
+    ]);
 
-  const totalViews =
-    (await Project.aggregate([
-      { $group: { _id: null, total: { $sum: "$viewCount" } } },
-    ]).then((r) => r[0]?.total ?? 0)) +
-    (await Blog.aggregate([
-      { $group: { _id: null, total: { $sum: "$viewCount" } } },
-    ]).then((r) => r[0]?.total ?? 0));
+    const totalViews =
+      (await Project.aggregate([
+        { $group: { _id: null, total: { $sum: "$viewCount" } } },
+      ]).then((r) => r[0]?.total ?? 0)) +
+      (await Blog.aggregate([
+        { $group: { _id: null, total: { $sum: "$viewCount" } } },
+      ]).then((r) => r[0]?.total ?? 0));
 
-  const projectCount = await Project.countDocuments({
-    status: ProjectStatus.PUBLISHED,
-  });
+    const projectCount = await Project.countDocuments({
+      status: ProjectStatus.PUBLISHED,
+    });
 
-  return {
-    user,
-    projects: JSON.parse(JSON.stringify(projects)),
-    blogs: JSON.parse(JSON.stringify(blogs)),
-    stats: {
-      projects: projectCount,
-      experience: experienceCount,
-      totalViews,
-    },
-  };
+    return {
+      user,
+      projects: JSON.parse(JSON.stringify(projects)),
+      blogs: JSON.parse(JSON.stringify(blogs)),
+      stats: {
+        projects: projectCount,
+        experience: experienceCount,
+        totalViews,
+      },
+    };
+  } catch (err) {
+    console.error("Failed to load home page data:", err);
+    return fallbackData;
+  }
 }
 
 export default async function HomePage() {

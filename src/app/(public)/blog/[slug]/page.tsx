@@ -8,25 +8,34 @@ import { Blog } from "@/lib/models";
 import { BlogStatus } from "@/enums";
 
 async function getBlog(slug: string) {
-  await connectDB();
-  const blog = await Blog.findOneAndUpdate(
-    { slug, status: BlogStatus.PUBLISHED },
-    { $inc: { viewCount: 1 } },
-    { new: true }
-  ).lean();
-  if (!blog) return null;
-  return JSON.parse(JSON.stringify(blog));
+  try {
+    await connectDB();
+    const blog = await Blog.findOneAndUpdate(
+      { slug, status: BlogStatus.PUBLISHED },
+      { $inc: { viewCount: 1 } },
+      { new: true }
+    ).lean();
+    if (!blog) return null;
+    return JSON.parse(JSON.stringify(blog));
+  } catch (err) {
+    console.error("Failed to load blog:", err);
+    return null;
+  }
 }
 
 async function getNextBlog(currentSlug: string) {
-  await connectDB();
-  const next = await Blog.findOne({
-    slug: { $ne: currentSlug },
-    status: BlogStatus.PUBLISHED,
-  })
-    .sort({ createdAt: -1 })
-    .lean();
-  return next ? JSON.parse(JSON.stringify(next)) : null;
+  try {
+    await connectDB();
+    const next = await Blog.findOne({
+      slug: { $ne: currentSlug },
+      status: BlogStatus.PUBLISHED,
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return next ? JSON.parse(JSON.stringify(next)) : null;
+  } catch {
+    return null;
+  }
 }
 
 export default async function BlogDetailPage({

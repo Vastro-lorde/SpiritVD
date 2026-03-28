@@ -7,11 +7,16 @@ import { Blog } from "@/lib/models";
 import { BlogStatus } from "@/enums";
 
 async function getBlogs() {
-  await connectDB();
-  const blogs = await Blog.find({ status: BlogStatus.PUBLISHED })
-    .sort({ createdAt: -1 })
-    .lean();
-  return JSON.parse(JSON.stringify(blogs));
+  try {
+    await connectDB();
+    const blogs = await Blog.find({ status: BlogStatus.PUBLISHED })
+      .sort({ createdAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(blogs));
+  } catch (err) {
+    console.error("Failed to load blogs:", err);
+    return [];
+  }
 }
 
 export default async function BlogPage() {
