@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/db/connection";
 import { User } from "@/lib/models";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   providers: [
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -18,26 +19,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        try {
+          if (!credentials?.email || !credentials?.password) return null;
 
-        await connectDB();
-        const user = await User.findOne({
-          email: credentials.email as string,
-        });
-        if (!user) return null;
+          await connectDB();
+          const user = await User.findOne({
+            email: credentials.email as string,
+          });
+          if (!user) return null;
 
-        const isValid = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
-        if (!isValid) return null;
+          const isValid = await bcrypt.compare(
+            credentials.password as string,
+            user.passwordHash
+          );
+          if (!isValid) return null;
 
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          image: user.profileImage,
-        };
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            image: user.profileImage,
+          };
+        } catch (error) {
+          console.error("Authorize error:", error);
+          return null;
+        }
       },
     }),
   ],
