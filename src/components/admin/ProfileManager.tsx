@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { Pencil, Plus, Trash2, Upload } from "lucide-react";
-import { updateSocialLinks, updateResume } from "@/lib/actions/profile.actions";
+import { updateProfile, updateSocialLinks, updateResume } from "@/lib/actions/profile.actions";
 import { deleteExperience } from "@/lib/actions/experience.actions";
 import { SocialPlatform } from "@/enums";
 import AddExperienceModal from "./AddExperienceModal";
@@ -60,6 +60,9 @@ export default function ProfileManager({
   const [experiences, setExperiences] = useState(initialExperiences);
   const [showAddExp, setShowAddExp] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [profileImage, setProfileImage] = useState(initialUser?.profileImage ?? "");
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const profileImageInputRef = useRef<HTMLInputElement>(null);
 
   function formatDate(date: string | null) {
     if (!date) return "Present";
@@ -79,6 +82,38 @@ export default function ProfileManager({
     if (!confirm("Delete this experience?")) return;
     await deleteExperience(id);
     setExperiences((prev) => prev.filter((e) => e._id !== id));
+  }
+
+  async function handleProfileImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("folder", "profile");
+      formData.append("type", "image");
+
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (json.success) {
+        const url = json.data.url as string;
+        setProfileImage(url);
+
+        const profileData = new FormData();
+        profileData.set("name", initialUser?.name ?? "");
+        profileData.set("bio", initialUser?.bio ?? "");
+        profileData.set("title", initialUser?.title ?? "");
+        profileData.set("profileImage", url);
+        profileData.set("resumeUrl", initialUser?.resumeUrl ?? "");
+        await updateProfile(profileData);
+      }
+    } catch (err) {
+      console.error("Profile image upload failed:", err);
+    } finally {
+      setUploadingImage(false);
+    }
   }
 
   async function handleResumeUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -103,11 +138,20 @@ export default function ProfileManager({
     <>
       {/* Profile header */}
       <div className="flex items-center gap-4 rounded-xl border border-border bg-white p-4 dark:border-border-dark dark:bg-surface-dark">
-        <div className="relative h-14 w-14 overflow-hidden rounded-full bg-primary/10">
-          {initialUser?.profileImage ? (
+        <button
+          type="button"
+          onClick={() => profileImageInputRef.current?.click()}
+          className="relative h-14 w-14 overflow-hidden rounded-full bg-primary/10"
+          disabled={uploadingImage}
+        >
+          {uploadingImage ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            </div>
+          ) : profileImage ? (
             <Image
-              src={initialUser.profileImage}
-              alt={initialUser.name}
+              src={profileImage}
+              alt={initialUser?.name ?? "Profile"}
               fill
               className="object-cover"
             />
@@ -116,14 +160,27 @@ export default function ProfileManager({
               SD
             </div>
           )}
-        </div>
+        </button>
+        <input
+          ref={profileImageInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleProfileImageUpload}
+          className="hidden"
+          aria-label="Upload profile photo"
+        />
         <div className="flex-1">
           <h3 className="font-semibold text-primary dark:text-white">
             {initialUser?.name ?? "Admin User"}
           </h3>
           <p className="text-xs text-muted">{initialUser?.email}</p>
         </div>
-        <button title="edit" className="text-muted hover:text-primary">
+        <button
+          title="Change profile photo"
+          onClick={() => profileImageInputRef.current?.click()}
+          disabled={uploadingImage}
+          className="text-muted hover:text-primary"
+        >
           <Pencil className="h-4 w-4" />
         </button>
       </div>

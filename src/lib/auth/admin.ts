@@ -20,6 +20,7 @@ export async function getAuthenticatedAdminEmail(): Promise<string | null> {
 
 export async function requireAuthenticatedAdminEmail(): Promise<string> {
   const email = await getAuthenticatedAdminEmail();
+  console.log(email);
   if (!email) {
     throw new Error("Unauthorized");
   }
