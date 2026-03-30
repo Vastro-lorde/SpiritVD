@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/lib/auth";
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
+export default auth((req) => {
+  const pathname = req.nextUrl.pathname;
   const isAdminRoute = pathname.startsWith("/admin");
   const isLoginRoute = pathname === "/login";
-  const isAdmin = token?.role === "admin";
+  const role = req.auth?.user?.role?.toLowerCase();
+  const isAdmin = role === "admin";
 
   if (isAdminRoute && !isAdmin) {
     const loginUrl = new URL("/login", req.url);
@@ -21,7 +19,7 @@ export async function middleware(req: NextRequest) {
   }
 
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: ["/admin/:path*", "/login"],
