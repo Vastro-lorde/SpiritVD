@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import { UserRole } from "@/enums";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -25,7 +26,7 @@ async function seed() {
     profileImage: "",
     resumeUrl:
       "https://docs.google.com/document/d/1qwQuZRXuvnhf8U88p9S-aSAhW3t-AinwNQAUgCkgSo8/edit?usp=sharing",
-    role: "admin",
+    role: UserRole.ADMIN,
     createdAt: new Date(),
     updatedAt: new Date(),
   });

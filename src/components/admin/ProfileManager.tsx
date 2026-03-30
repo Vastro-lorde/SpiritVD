@@ -123,7 +123,7 @@ export default function ProfileManager({
           </h3>
           <p className="text-xs text-muted">{initialUser?.email}</p>
         </div>
-        <button className="text-muted hover:text-primary">
+        <button title="edit" className="text-muted hover:text-primary">
           <Pencil className="h-4 w-4" />
         </button>
       </div>

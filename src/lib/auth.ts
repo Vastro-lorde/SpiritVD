@@ -129,11 +129,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.sub = (user as { id?: string }).id ?? token.sub;
         token.role = (user as { role?: string }).role;
       }
+
+      // On every fresh sign-in, resolve role from DB by email.
+      // This covers cases where custom properties are stripped from the
+      // user object (common in NextAuth v5 for both OAuth and credentials).
+      if (account && !token.role) {
+        const email =
+          token.email ?? (user as { email?: string | null })?.email;
+        if (email) {
+          await connectDB();
+          const dbUser = await User.findOne({
+            email: email.trim().toLowerCase(),
+            role: UserRole.ADMIN,
+          })
+            .select("_id role")
+            .lean();
+          if (
+            dbUser &&
+            typeof dbUser === "object" &&
+            "_id" in dbUser &&
+            "role" in dbUser
+          ) {
+            token.sub = String(
+              (dbUser as { _id: unknown })._id
+            );
+            token.role = (dbUser as { role: string }).role;
+          }
+        }
+      }
+
       return token;
     },
   },
