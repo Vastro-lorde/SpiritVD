@@ -5,22 +5,43 @@ import Link from "next/link";
 import { connectDB } from "@/lib/db/connection";
 import { Project } from "@/lib/models";
 import { ProjectStatus } from "@/enums";
+import SearchInput from "@/components/shared/SearchInput";
+import Pagination from "@/components/shared/Pagination";
 
-async function getProjects() {
+const LIMIT = 8;
+
+async function getProjects(page: number, search: string) {
   try {
     await connectDB();
-    const projects = await Project.find({ status: ProjectStatus.PUBLISHED })
-      .sort({ featured: -1, createdAt: -1 })
-      .lean();
-    return JSON.parse(JSON.stringify(projects));
+    const filter: Record<string, unknown> = { status: ProjectStatus.PUBLISHED };
+    if (search) {
+      const regex = { $regex: search, $options: "i" };
+      filter.$or = [{ title: regex }, { description: regex }, { techStack: regex }];
+    }
+    const [projects, total] = await Promise.all([
+      Project.find(filter)
+        .sort({ featured: -1, createdAt: -1 })
+        .skip((page - 1) * LIMIT)
+        .limit(LIMIT)
+        .lean(),
+      Project.countDocuments(filter),
+    ]);
+    return { projects: JSON.parse(JSON.stringify(projects)), total };
   } catch (err) {
     console.error("Failed to load projects:", err);
-    return [];
+    return { projects: [], total: 0 };
   }
 }
 
-export default async function WorkPage() {
-  const projects = await getProjects();
+export default async function WorkPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; search?: string }>;
+}) {
+  const params = await searchParams;
+  const page = Math.max(1, parseInt(params.page ?? "1"));
+  const search = params.search ?? "";
+  const { projects, total } = await getProjects(page, search);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -30,6 +51,10 @@ export default async function WorkPage() {
       <p className="mt-2 text-muted">
         A collection of projects I&apos;ve worked on.
       </p>
+
+      <div className="mt-6">
+        <SearchInput placeholder="Search projects..." />
+      </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {projects.map(
@@ -87,6 +112,8 @@ export default async function WorkPage() {
           No projects published yet.
         </p>
       )}
+
+      <Pagination total={total} page={page} limit={LIMIT} />
     </div>
   );
 }

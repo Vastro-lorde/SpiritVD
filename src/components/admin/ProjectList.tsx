@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Search, Plus, Pencil, Star, Trash2 } from "lucide-react";
+import { Plus, Pencil, Star, Trash2 } from "lucide-react";
 import { ProjectStatus } from "@/enums";
 import {
   deleteProject,
@@ -10,6 +10,7 @@ import {
 } from "@/lib/actions/project.actions";
 import CreateProjectModal from "./CreateProjectModal";
 import EditProjectModal from "./EditProjectModal";
+import SearchInput from "@/components/shared/SearchInput";
 
 interface ProjectItem {
   _id: string;
@@ -34,7 +35,6 @@ export default function ProjectList({
   autoOpenCreate?: boolean;
 }) {
   const [projects, setProjects] = useState(initialProjects);
-  const [search, setSearch] = useState("");
   const [showCreate, setShowCreate] = useState(false);
   const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
 
@@ -45,10 +45,6 @@ export default function ProjectList({
   useEffect(() => {
     if (autoOpenCreate) setShowCreate(true);
   }, [autoOpenCreate]);
-
-  const filtered = projects.filter((p) =>
-    p.title.toLowerCase().includes(search.toLowerCase())
-  );
 
   function timeAgo(dateStr: string) {
     const days = Math.floor(
@@ -79,16 +75,7 @@ export default function ProjectList({
   return (
     <>
       {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-        <input
-          type="text"
-          placeholder="Search projects..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-border bg-white py-2.5 pl-10 pr-4 text-sm outline-none focus:border-primary dark:border-border-dark dark:bg-surface-dark dark:text-white"
-        />
-      </div>
+      <SearchInput placeholder="Search projects..." />
 
       {/* Create button */}
       <button
@@ -101,7 +88,7 @@ export default function ProjectList({
 
       {/* Project cards */}
       <div className="mt-6 space-y-6">
-        {filtered.map((project) => (
+        {projects.map((project) => (
           <div
             key={project._id}
             className="overflow-hidden rounded-xl border border-border bg-white dark:border-border-dark dark:bg-surface-dark"

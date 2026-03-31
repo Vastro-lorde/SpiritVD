@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import { Plus, Pencil, EyeOff, Trash2 } from "lucide-react";
 import { BlogStatus } from "@/enums";
 import { deleteBlog, toggleBlogPublish } from "@/lib/actions/blog.actions";
 import CreateBlogModal from "./CreateBlogModal";
 import EditBlogModal from "./EditBlogModal";
+import SearchInput from "@/components/shared/SearchInput";
 
 interface BlogItem {
   _id: string;
@@ -25,31 +27,40 @@ type Tab = "all" | "published" | "deleted";
 export default function BlogList({
   initialBlogs,
   autoOpenCreate,
+  counts,
+  currentTab,
 }: {
   initialBlogs: BlogItem[];
   autoOpenCreate?: boolean;
+  counts: { all: number; published: number; deleted: number };
+  currentTab: Tab;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [blogs, setBlogs] = useState(initialBlogs);
-  const [tab, setTab] = useState<Tab>("all");
   const [showCreate, setShowCreate] = useState(false);
   const [editingBlog, setEditingBlog] = useState<BlogItem | null>(null);
+
+  useEffect(() => {
+    setBlogs(initialBlogs);
+  }, [initialBlogs]);
 
   useEffect(() => {
     if (autoOpenCreate) setShowCreate(true);
   }, [autoOpenCreate]);
 
-  const filtered = blogs.filter((b) => {
-    if (tab === "all") return b.status !== BlogStatus.DELETED;
-    if (tab === "published") return b.status === BlogStatus.PUBLISHED;
-    if (tab === "deleted") return b.status === BlogStatus.DELETED;
-    return true;
-  });
-
-  const counts = {
-    all: blogs.filter((b) => b.status !== BlogStatus.DELETED).length,
-    published: blogs.filter((b) => b.status === BlogStatus.PUBLISHED).length,
-    deleted: blogs.filter((b) => b.status === BlogStatus.DELETED).length,
-  };
+  function switchTab(t: Tab) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (t === "all") {
+      params.delete("tab");
+    } else {
+      params.set("tab", t);
+    }
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
+  }
 
   async function handleDelete(id: string) {
     if (!confirm("Delete this blog post?")) return;
@@ -85,14 +96,19 @@ export default function BlogList({
         </button>
       </div>
 
+      {/* Search */}
+      <div className="mt-4">
+        <SearchInput placeholder="Search blog posts..." />
+      </div>
+
       {/* Tabs */}
       <div className="mt-4 flex gap-4 border-b border-border dark:border-border-dark">
         {(["all", "published", "deleted"] as Tab[]).map((t) => (
           <button
             key={t}
-            onClick={() => setTab(t)}
+            onClick={() => switchTab(t)}
             className={`pb-2 text-sm font-medium capitalize transition-colors ${
-              tab === t
+              currentTab === t
                 ? "border-b-2 border-primary text-primary dark:text-white"
                 : "text-muted hover:text-primary"
             }`}
@@ -104,7 +120,7 @@ export default function BlogList({
 
       {/* Blog cards */}
       <div className="mt-6 space-y-6">
-        {filtered.map((blog) => (
+        {blogs.map((blog) => (
           <div
             key={blog._id}
             className="overflow-hidden rounded-xl border border-border bg-white dark:border-border-dark dark:bg-surface-dark"

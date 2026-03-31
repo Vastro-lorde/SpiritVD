@@ -5,27 +5,52 @@ import Link from "next/link";
 import { connectDB } from "@/lib/db/connection";
 import { Blog } from "@/lib/models";
 import { BlogStatus } from "@/enums";
+import SearchInput from "@/components/shared/SearchInput";
+import Pagination from "@/components/shared/Pagination";
 
-async function getBlogs() {
+const LIMIT = 8;
+
+async function getBlogs(page: number, search: string) {
   try {
     await connectDB();
-    const blogs = await Blog.find({ status: BlogStatus.PUBLISHED })
-      .sort({ createdAt: -1 })
-      .lean();
-    return JSON.parse(JSON.stringify(blogs));
+    const filter: Record<string, unknown> = { status: BlogStatus.PUBLISHED };
+    if (search) {
+      const regex = { $regex: search, $options: "i" };
+      filter.$or = [{ title: regex }, { subtitle: regex }, { description: regex }];
+    }
+    const [blogs, total] = await Promise.all([
+      Blog.find(filter)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * LIMIT)
+        .limit(LIMIT)
+        .lean(),
+      Blog.countDocuments(filter),
+    ]);
+    return { blogs: JSON.parse(JSON.stringify(blogs)), total };
   } catch (err) {
     console.error("Failed to load blogs:", err);
-    return [];
+    return { blogs: [], total: 0 };
   }
 }
 
-export default async function BlogPage() {
-  const blogs = await getBlogs();
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; search?: string }>;
+}) {
+  const params = await searchParams;
+  const page = Math.max(1, parseInt(params.page ?? "1"));
+  const search = params.search ?? "";
+  const { blogs, total } = await getBlogs(page, search);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <h1 className="text-3xl font-bold text-primary dark:text-white">Blog</h1>
       <p className="mt-2 text-muted">Thoughts, tutorials, and insights.</p>
+
+      <div className="mt-6">
+        <SearchInput placeholder="Search blog posts..." />
+      </div>
 
       <div className="mt-8 space-y-8">
         {blogs.map(
@@ -86,6 +111,8 @@ export default async function BlogPage() {
           No blog posts published yet.
         </p>
       )}
+
+      <Pagination total={total} page={page} limit={LIMIT} />
     </div>
   );
 }
