@@ -31,13 +31,21 @@ export async function uploadImage(
 }
 
 export async function uploadResume(
-  fileBuffer: Buffer
+  fileBuffer: Buffer,
+  originalFilename: string
 ): Promise<{ url: string; publicId: string }> {
   const client = getClient();
+  const safeName = originalFilename.replace(/[^a-zA-Z0-9._-]/g, "_");
 
   return new Promise((resolve, reject) => {
     const stream = client.uploader.upload_stream(
-      { folder: "spiritvd/resumes", resource_type: "raw" },
+      {
+        folder: "spiritvd/resumes",
+        resource_type: "raw",
+        public_id: safeName,
+        overwrite: true,
+        unique_filename: false,
+      },
       (error, result) => {
         if (error || !result) return reject(error ?? new Error("Upload failed"));
         resolve({ url: result.secure_url, publicId: result.public_id });

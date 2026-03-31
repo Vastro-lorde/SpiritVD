@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const result =
     type === "resume"
-      ? await uploadResume(buffer)
+      ? await uploadResume(buffer, file.name)
       : await uploadImage(buffer, folder);
 
   return NextResponse.json({ success: true, data: result }, { status: 201 });

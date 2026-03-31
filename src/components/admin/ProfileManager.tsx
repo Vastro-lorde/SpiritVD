@@ -75,6 +75,8 @@ export default function ProfileManager({
   const [savingProfile, setSavingProfile] = useState(false);
   const [interests, setInterests] = useState<string[]>(initialUser?.interests ?? []);
   const [newInterest, setNewInterest] = useState("");
+  const [uploadingResume, setUploadingResume] = useState(false);
+  const [resumeUrl, setResumeUrl] = useState(initialUser?.resumeUrl ?? "");
   const profileImageInputRef = useRef<HTMLInputElement>(null);
   const resumeInputRef = useRef<HTMLInputElement>(null);
 
@@ -159,17 +161,32 @@ export default function ProfileManager({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", "resume");
+    setUploadingResume(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "resume");
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-    const json = await res.json();
-    if (json.success) {
-      await updateResume(json.data.url);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const json = await res.json();
+      if (json.success) {
+        await updateResume(json.data.url);
+        setResumeUrl(json.data.url);
+      }
+    } finally {
+      setUploadingResume(false);
+    }
+  }
+
+  function getResumeFilename(url: string) {
+    try {
+      const parts = url.split("/");
+      return decodeURIComponent(parts[parts.length - 1]);
+    } catch {
+      return "Resume";
     }
   }
 
@@ -372,20 +389,23 @@ export default function ProfileManager({
           Resume
         </h2>
         <div className="mt-4 rounded-xl border border-border bg-white p-4 dark:border-border-dark dark:bg-surface-dark">
-          {initialUser?.resumeUrl ? (
+          {resumeUrl ? (
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/5">
                 <Upload className="h-5 w-5 text-primary dark:text-white" />
               </div>
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-primary dark:text-white">
                   Current Resume
                 </p>
+                <p className="truncate text-xs text-muted">
+                  {getResumeFilename(resumeUrl)}
+                </p>
                 <a
-                  href={initialUser.resumeUrl}
+                  href={resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-muted underline"
+                  className="text-xs text-primary underline hover:text-primary-light"
                 >
                   View Resume
                 </a>
@@ -394,14 +414,26 @@ export default function ProfileManager({
           ) : (
             <p className="text-sm text-muted">No resume uploaded</p>
           )}
-          <label className="mt-3 flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-primary py-3 text-sm font-medium text-primary dark:text-white">
-            <Upload className="h-4 w-4" />
-            Upload New Resume
+          <label className={`mt-3 flex items-center justify-center gap-2 rounded-lg border border-dashed border-primary py-3 text-sm font-medium text-primary dark:text-white ${
+            uploadingResume ? "pointer-events-none opacity-60" : "cursor-pointer"
+          }`}>
+            {uploadingResume ? (
+              <>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <Upload className="h-4 w-4" />
+                Upload New Resume
+              </>
+            )}
             <input
               ref={resumeInputRef}
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={handleResumeUpload}
+              disabled={uploadingResume}
               className="hidden"
             />
           </label>
