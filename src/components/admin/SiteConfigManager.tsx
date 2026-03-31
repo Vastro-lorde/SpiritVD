@@ -79,9 +79,11 @@ export default function SiteConfigManager({
               Favicon
             </label>
             <ImageUpload
-              currentImage={config.faviconUrl}
-              onUpload={(url) => handleChange("faviconUrl", url)}
+              value={config.faviconUrl}
+              onChange={(url) => handleChange("faviconUrl", url)}
+              folder="favicon"
               label="Upload Favicon"
+              recommendedSize="32 x 32 px"
             />
             <p className="mt-1 text-xs text-muted">
               Recommended: 32×32 or 64×64 PNG/ICO
