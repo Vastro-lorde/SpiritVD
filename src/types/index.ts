@@ -16,6 +16,7 @@ export interface IUser {
   title: string;
   profileImage: string;
   resumeUrl: string;
+  interests: string[];
   role: UserRole;
   createdAt: Date;
   updatedAt: Date;

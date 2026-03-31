@@ -9,6 +9,7 @@ export interface UserDocument extends Document {
   title: string;
   profileImage: string;
   resumeUrl: string;
+  interests: string[];
   role: UserRole;
   createdAt: Date;
   updatedAt: Date;
@@ -23,6 +24,7 @@ const userSchema = new Schema<UserDocument>(
     title: { type: String, default: "" },
     profileImage: { type: String, default: "" },
     resumeUrl: { type: String, default: "" },
+    interests: { type: [String], default: [] },
     role: {
       type: String,
       enum: Object.values(UserRole),

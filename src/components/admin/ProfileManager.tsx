@@ -17,6 +17,7 @@ interface UserData {
   title: string;
   profileImage: string;
   resumeUrl: string;
+  interests: string[];
 }
 
 interface SocialLinkData {
@@ -72,6 +73,8 @@ export default function ProfileManager({
   const [bio, setBio] = useState(initialUser?.bio ?? "");
   const [title, setTitle] = useState(initialUser?.title ?? "");
   const [savingProfile, setSavingProfile] = useState(false);
+  const [interests, setInterests] = useState<string[]>(initialUser?.interests ?? []);
+  const [newInterest, setNewInterest] = useState("");
   const profileImageInputRef = useRef<HTMLInputElement>(null);
   const resumeInputRef = useRef<HTMLInputElement>(null);
 
@@ -98,6 +101,7 @@ export default function ProfileManager({
       formData.set("title", title);
       formData.set("profileImage", profileImage);
       formData.set("resumeUrl", initialUser?.resumeUrl ?? "");
+      formData.set("interests", interests.join(","));
       await updateProfile(formData);
     } finally {
       setSavingProfile(false);
@@ -141,6 +145,7 @@ export default function ProfileManager({
         profileData.set("title", title);
         profileData.set("profileImage", url);
         profileData.set("resumeUrl", initialUser?.resumeUrl ?? "");
+        profileData.set("interests", interests.join(","));
         await updateProfile(profileData);
       }
     } catch (err) {
@@ -260,6 +265,60 @@ export default function ProfileManager({
               rows={3}
               className="mt-1 w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none focus:border-primary dark:border-border-dark dark:text-white"
             />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-primary dark:text-white">
+              Interests
+            </label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {interests.map((interest) => (
+                <span
+                  key={interest}
+                  className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:text-white"
+                >
+                  {interest}
+                  <button
+                    type="button"
+                    onClick={() => setInterests((prev) => prev.filter((i) => i !== interest))}
+                    className="ml-0.5 text-primary/60 hover:text-red-500 dark:text-white/60"
+                  >
+                    &times;
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className="mt-2 flex gap-2">
+              <input
+                type="text"
+                value={newInterest}
+                onChange={(e) => setNewInterest(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    const val = newInterest.trim();
+                    if (val && !interests.includes(val)) {
+                      setInterests((prev) => [...prev, val]);
+                      setNewInterest("");
+                    }
+                  }
+                }}
+                placeholder="Type an interest and press Enter"
+                className="flex-1 rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none focus:border-primary dark:border-border-dark dark:text-white"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  const val = newInterest.trim();
+                  if (val && !interests.includes(val)) {
+                    setInterests((prev) => [...prev, val]);
+                    setNewInterest("");
+                  }
+                }}
+                className="rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary dark:text-white"
+              >
+                Add
+              </button>
+            </div>
           </div>
           <button
             onClick={handleSaveProfile}

@@ -3,12 +3,27 @@ export const dynamic = "force-dynamic";
 import Image from "next/image";
 import { connectDB } from "@/lib/db/connection";
 import { User, Experience, Education, SocialLink } from "@/lib/models";
+import { fetchProfile, fetchRepos } from "@/lib/services/github.service";
 import {
   FaLinkedinIn,
   FaGithub,
   FaTwitter,
   FaYoutube,
+  FaFacebookF,
+  FaInstagram,
 } from "react-icons/fa";
+import { GoRepo, GoStar, GoGitBranch, GoPeople } from "react-icons/go";
+import type { IconType } from "react-icons";
+import type { GitHubProfile, GitHubRepo } from "@/types";
+
+const platformIcons: Record<string, { icon: IconType; label: string }> = {
+  linkedin: { icon: FaLinkedinIn, label: "LinkedIn" },
+  github: { icon: FaGithub, label: "GitHub" },
+  twitter: { icon: FaTwitter, label: "Twitter" },
+  youtube: { icon: FaYoutube, label: "YouTube" },
+  facebook: { icon: FaFacebookF, label: "Facebook" },
+  instagram: { icon: FaInstagram, label: "Instagram" },
+};
 
 async function getData() {
   try {
@@ -31,25 +46,50 @@ async function getData() {
   }
 }
 
+async function getGitHubStats(): Promise<{
+  profile: GitHubProfile | null;
+  totalStars: number;
+  topLanguages: string[];
+}> {
+  try {
+    const [profile, repos] = await Promise.all([
+      fetchProfile(),
+      fetchRepos(100, "stars"),
+    ]);
+    const totalStars = repos.reduce(
+      (sum: number, r: GitHubRepo) => sum + (r.stargazers_count ?? 0),
+      0
+    );
+    const langCounts: Record<string, number> = {};
+    for (const repo of repos) {
+      if (repo.language) {
+        langCounts[repo.language] = (langCounts[repo.language] ?? 0) + 1;
+      }
+    }
+    const topLanguages = Object.entries(langCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([lang]) => lang);
+    return { profile, totalStars, topLanguages };
+  } catch (err) {
+    console.error("Failed to load GitHub stats:", err);
+    return { profile: null, totalStars: 0, topLanguages: [] };
+  }
+}
+
 function formatDate(date: string | null) {
   if (!date) return "Present";
   const d = new Date(date);
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
 }
 
-const interests = [
-  "Photography",
-  "Roller coasting",
-  "Drawing",
-  "Reading",
-];
-
 export default async function AboutPage() {
-  const { user, experiences, socialLinks } = await getData();
+  const [{ user, experiences, socialLinks }, github] = await Promise.all([
+    getData(),
+    getGitHubStats(),
+  ]);
 
-  const getSocialUrl = (platform: string, fallback: string) =>
-    socialLinks.find((link: { platform: string; url: string }) => link.platform === platform)
-      ?.url || fallback;
+  const userInterests: string[] = user?.interests ?? [];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -82,35 +122,29 @@ export default async function AboutPage() {
           {user?.title ?? "Software Engineer (.NET/JS)"}
         </p>
 
-        {/* Social icons */}
+        {/* Social icons — rendered dynamically from backend */}
         <div className="mt-3 flex gap-3">
-          {[
-            {
-              icon: FaLinkedinIn,
-              href: getSocialUrl("linkedin", "https://linkedin.com/in/seundanielomatsola"),
-            },
-            {
-              icon: FaGithub,
-              href: getSocialUrl("github", "https://github.com/Vastro-lorde"),
-            },
-            { icon: FaYoutube, href: "#" },
-            {
-              icon: FaTwitter,
-              href: getSocialUrl("twitter", "https://twitter.com/vastroLord"),
-            },
-          ].map(({ icon: Icon, href }, i) => (
-            <a
-              key={i}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Social link ${i + 1}`}
-              title={`Social link ${i + 1}`}
-              className="text-muted hover:text-primary dark:hover:text-white"
-            >
-              <Icon className="h-4 w-4" />
-            </a>
-          ))}
+          {socialLinks
+            .filter(
+              (link: { platform: string; url: string }) =>
+                link.url && platformIcons[link.platform]
+            )
+            .map((link: { platform: string; url: string }) => {
+              const { icon: Icon, label } = platformIcons[link.platform];
+              return (
+                <a
+                  key={link.platform}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className="text-muted hover:text-primary dark:hover:text-white"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              );
+            })}
         </div>
 
         <p className="mt-6 text-center leading-relaxed text-muted">
@@ -118,6 +152,57 @@ export default async function AboutPage() {
             "I am a passionate software engineer with over 5 years of professional experience building modern web applications. My journey started with front-end development, but I quickly transitioned into full-stack engineering to architect robust systems from end to end."}
         </p>
       </div>
+
+      {/* GitHub Statistics */}
+      {github.profile && (
+        <section className="mt-16">
+          <h2 className="text-2xl font-bold text-primary dark:text-white">
+            GitHub Statistics
+          </h2>
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="flex flex-col items-center rounded-xl border border-border bg-white p-4 dark:border-border-dark dark:bg-surface-dark">
+              <GoRepo className="h-5 w-5 text-primary" />
+              <span className="mt-2 text-2xl font-bold text-primary dark:text-white">
+                {github.profile.public_repos}
+              </span>
+              <span className="text-xs text-muted">Repositories</span>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-border bg-white p-4 dark:border-border-dark dark:bg-surface-dark">
+              <GoStar className="h-5 w-5 text-primary" />
+              <span className="mt-2 text-2xl font-bold text-primary dark:text-white">
+                {github.totalStars}
+              </span>
+              <span className="text-xs text-muted">Total Stars</span>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-border bg-white p-4 dark:border-border-dark dark:bg-surface-dark">
+              <GoPeople className="h-5 w-5 text-primary" />
+              <span className="mt-2 text-2xl font-bold text-primary dark:text-white">
+                {github.profile.followers}
+              </span>
+              <span className="text-xs text-muted">Followers</span>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-border bg-white p-4 dark:border-border-dark dark:bg-surface-dark">
+              <GoGitBranch className="h-5 w-5 text-primary" />
+              <span className="mt-2 text-2xl font-bold text-primary dark:text-white">
+                {github.topLanguages.length}
+              </span>
+              <span className="text-xs text-muted">Languages</span>
+            </div>
+          </div>
+          {github.topLanguages.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {github.topLanguages.map((lang) => (
+                <span
+                  key={lang}
+                  className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:text-white"
+                >
+                  {lang}
+                </span>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Experience */}
       <section className="mt-16">
@@ -173,21 +258,23 @@ export default async function AboutPage() {
       </section>
 
       {/* Interests */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-bold text-primary dark:text-white">
-          Interests
-        </h2>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {interests.map((interest) => (
-            <span
-              key={interest}
-              className="rounded-full border border-border px-4 py-2 text-sm text-muted dark:border-border-dark"
-            >
-              {interest}
-            </span>
-          ))}
-        </div>
-      </section>
+      {userInterests.length > 0 && (
+        <section className="mt-16">
+          <h2 className="text-2xl font-bold text-primary dark:text-white">
+            Interests
+          </h2>
+          <div className="mt-4 flex flex-wrap gap-3">
+            {userInterests.map((interest) => (
+              <span
+                key={interest}
+                className="rounded-full border border-border px-4 py-2 text-sm text-muted dark:border-border-dark"
+              >
+                {interest}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Get In Touch */}
       <section className="mt-16 text-center">

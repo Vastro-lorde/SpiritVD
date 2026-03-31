@@ -11,6 +11,11 @@ export async function updateProfile(formData: FormData) {
 
   await connectDB();
 
+  const interestsRaw = formData.get("interests") as string | null;
+  const interests = interestsRaw
+    ? interestsRaw.split(",").map((s) => s.trim()).filter(Boolean)
+    : undefined;
+
   await User.findOneAndUpdate(
     { email: adminEmail },
     {
@@ -19,6 +24,7 @@ export async function updateProfile(formData: FormData) {
       title: formData.get("title") as string,
       profileImage: (formData.get("profileImage") as string) ?? undefined,
       resumeUrl: (formData.get("resumeUrl") as string) ?? undefined,
+      ...(interests !== undefined && { interests }),
     },
     { new: true }
   );
