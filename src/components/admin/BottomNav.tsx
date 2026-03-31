@@ -7,6 +7,7 @@ import {
   Building2,
   FileText,
   User,
+  Mail,
   ArrowLeftRight,
 } from "lucide-react";
 
@@ -14,6 +15,7 @@ const navItems = [
   { href: "/admin", icon: LayoutGrid, label: "Home" },
   { href: "/admin/projects", icon: Building2, label: "Projects" },
   { href: "/admin/blogs", icon: FileText, label: "Blog" },
+  { href: "/admin/messages", icon: Mail, label: "Messages" },
   { href: "/admin/profile", icon: User, label: "Profile" },
   { href: "/", icon: ArrowLeftRight, label: "Switch" },
 ];

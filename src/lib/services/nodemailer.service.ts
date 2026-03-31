@@ -52,3 +52,23 @@ export async function sendNotification(
     html,
   });
 }
+
+export async function sendReplyEmail(
+  to: string,
+  subject: string,
+  body: string
+): Promise<void> {
+  const { SMTP_USER } = getEnv();
+  const transporter = createTransporter();
+
+  await transporter.sendMail({
+    from: `"Seun Omatsola" <${SMTP_USER}>`,
+    to,
+    subject,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        ${body.replace(/\n/g, "<br />")}
+      </div>
+    `,
+  });
+}

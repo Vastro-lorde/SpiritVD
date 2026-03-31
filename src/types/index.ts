@@ -97,6 +97,8 @@ export interface IContactMessage {
   name: string;
   email: string;
   message: string;
+  read: boolean;
+  repliedAt: string | null;
   createdAt: Date;
 }
 
