@@ -10,12 +10,17 @@ async function getProjects() {
   return JSON.parse(JSON.stringify(projects));
 }
 
-export default async function AdminProjectsPage() {
+export default async function AdminProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ new?: string }>;
+}) {
   const projects = await getProjects();
+  const params = await searchParams;
 
   return (
     <div className="px-4 py-6">
-      <ProjectList initialProjects={projects} />
+      <ProjectList initialProjects={projects} autoOpenCreate={params.new === "true"} />
     </div>
   );
 }

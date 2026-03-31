@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Pencil, Plus, Trash2, Upload } from "lucide-react";
 import { updateProfile, updateSocialLinks, updateResume } from "@/lib/actions/profile.actions";
 import { deleteExperience } from "@/lib/actions/experience.actions";
 import { SocialPlatform } from "@/enums";
 import AddExperienceModal from "./AddExperienceModal";
+import { signOut } from "next-auth/react";
 
 interface UserData {
   _id: string;
@@ -44,10 +45,14 @@ export default function ProfileManager({
   initialUser,
   initialSocialLinks,
   initialExperiences,
+  autoAddExp,
+  autoUploadResume,
 }: {
   initialUser: UserData | null;
   initialSocialLinks: SocialLinkData[];
   initialExperiences: ExperienceData[];
+  autoAddExp?: boolean;
+  autoUploadResume?: boolean;
 }) {
   const [socialLinks, setSocialLinks] = useState(
     Object.values(SocialPlatform).map((platform) => {
@@ -59,15 +64,44 @@ export default function ProfileManager({
   );
   const [experiences, setExperiences] = useState(initialExperiences);
   const [showAddExp, setShowAddExp] = useState(false);
+  const [editingExperience, setEditingExperience] = useState<ExperienceData | null>(null);
   const [saving, setSaving] = useState(false);
   const [profileImage, setProfileImage] = useState(initialUser?.profileImage ?? "");
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [name, setName] = useState(initialUser?.name ?? "");
+  const [bio, setBio] = useState(initialUser?.bio ?? "");
+  const [title, setTitle] = useState(initialUser?.title ?? "");
+  const [savingProfile, setSavingProfile] = useState(false);
   const profileImageInputRef = useRef<HTMLInputElement>(null);
+  const resumeInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (autoAddExp) setShowAddExp(true);
+  }, [autoAddExp]);
+
+  useEffect(() => {
+    if (autoUploadResume) resumeInputRef.current?.click();
+  }, [autoUploadResume]);
 
   function formatDate(date: string | null) {
     if (!date) return "Present";
     const d = new Date(date);
     return d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+  }
+
+  async function handleSaveProfile() {
+    setSavingProfile(true);
+    try {
+      const formData = new FormData();
+      formData.set("name", name);
+      formData.set("bio", bio);
+      formData.set("title", title);
+      formData.set("profileImage", profileImage);
+      formData.set("resumeUrl", initialUser?.resumeUrl ?? "");
+      await updateProfile(formData);
+    } finally {
+      setSavingProfile(false);
+    }
   }
 
   async function handleSaveSocials() {
@@ -102,9 +136,9 @@ export default function ProfileManager({
         setProfileImage(url);
 
         const profileData = new FormData();
-        profileData.set("name", initialUser?.name ?? "");
-        profileData.set("bio", initialUser?.bio ?? "");
-        profileData.set("title", initialUser?.title ?? "");
+        profileData.set("name", name);
+        profileData.set("bio", bio);
+        profileData.set("title", title);
         profileData.set("profileImage", url);
         profileData.set("resumeUrl", initialUser?.resumeUrl ?? "");
         await updateProfile(profileData);
@@ -185,6 +219,58 @@ export default function ProfileManager({
         </button>
       </div>
 
+      {/* Profile Info */}
+      <section className="mt-8">
+        <h2 className="text-xl font-bold text-primary dark:text-white">
+          Profile Info
+        </h2>
+        <div className="mt-4 space-y-4">
+          <div>
+            <label className="text-sm font-medium text-primary dark:text-white">
+              Name
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              className="mt-1 w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none focus:border-primary dark:border-border-dark dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-primary dark:text-white">
+              Title
+            </label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. Full-Stack Developer"
+              className="mt-1 w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none focus:border-primary dark:border-border-dark dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-primary dark:text-white">
+              Bio
+            </label>
+            <textarea
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="A short bio about yourself"
+              rows={3}
+              className="mt-1 w-full rounded-lg border border-border bg-transparent px-4 py-2.5 text-sm outline-none focus:border-primary dark:border-border-dark dark:text-white"
+            />
+          </div>
+          <button
+            onClick={handleSaveProfile}
+            disabled={savingProfile}
+            className="rounded-lg bg-primary px-6 py-2 text-sm font-medium text-white disabled:opacity-60"
+          >
+            {savingProfile ? "Saving..." : "Save Profile"}
+          </button>
+        </div>
+      </section>
+
       {/* Social Links */}
       <section className="mt-8">
         <h2 className="text-xl font-bold text-primary dark:text-white">
@@ -253,6 +339,7 @@ export default function ProfileManager({
             <Upload className="h-4 w-4" />
             Upload New Resume
             <input
+              ref={resumeInputRef}
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={handleResumeUpload}
@@ -293,7 +380,10 @@ export default function ProfileManager({
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <button className="text-muted hover:text-primary">
+                <button
+                  onClick={() => setEditingExperience(exp)}
+                  className="text-muted hover:text-primary"
+                >
                   <Pencil className="h-4 w-4" />
                 </button>
                 <button
@@ -311,17 +401,21 @@ export default function ProfileManager({
       {/* Logout */}
       <div className="mt-12 text-center">
         <button
-          onClick={() => {
-            window.location.href = "/api/auth/signout";
-          }}
+          onClick={() => signOut({ callbackUrl: "/login" })}
           className="text-sm font-medium text-red-500"
         >
           Logout
         </button>
       </div>
 
-      {showAddExp && (
-        <AddExperienceModal onClose={() => setShowAddExp(false)} />
+      {(showAddExp || editingExperience) && (
+        <AddExperienceModal
+          initialData={editingExperience ?? undefined}
+          onClose={() => {
+            setShowAddExp(false);
+            setEditingExperience(null);
+          }}
+        />
       )}
     </>
   );

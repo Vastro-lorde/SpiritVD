@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Search, Plus, Pencil, Star, Trash2 } from "lucide-react";
 import { ProjectStatus } from "@/enums";
@@ -9,12 +9,17 @@ import {
   toggleProjectFeatured,
 } from "@/lib/actions/project.actions";
 import CreateProjectModal from "./CreateProjectModal";
+import EditProjectModal from "./EditProjectModal";
 
 interface ProjectItem {
   _id: string;
   title: string;
   slug: string;
+  description: string;
   coverImage: string;
+  techStack: string[];
+  liveUrl?: string;
+  githubUrl?: string;
   status: ProjectStatus;
   featured: boolean;
   viewCount: number;
@@ -23,12 +28,19 @@ interface ProjectItem {
 
 export default function ProjectList({
   initialProjects,
+  autoOpenCreate,
 }: {
   initialProjects: ProjectItem[];
+  autoOpenCreate?: boolean;
 }) {
   const [projects, setProjects] = useState(initialProjects);
   const [search, setSearch] = useState("");
   const [showCreate, setShowCreate] = useState(false);
+  const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
+
+  useEffect(() => {
+    if (autoOpenCreate) setShowCreate(true);
+  }, [autoOpenCreate]);
 
   const filtered = projects.filter((p) =>
     p.title.toLowerCase().includes(search.toLowerCase())
@@ -122,8 +134,10 @@ export default function ProjectList({
               </p>
 
               <div className="mt-3 flex items-center gap-2">
-                <button className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border py-2 text-xs font-medium text-primary dark:border-border-dark dark:text-white">
-                  <Pencil className="h-3.5 w-3.5" />
+                <button
+                  onClick={() => setEditingProject(project)}
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border py-2 text-xs font-medium text-primary dark:border-border-dark dark:text-white"
+                >                  <Pencil className="h-3.5 w-3.5" />
                   Edit
                 </button>
                 <button
@@ -153,6 +167,12 @@ export default function ProjectList({
 
       {showCreate && (
         <CreateProjectModal onClose={() => setShowCreate(false)} />
+      )}
+      {editingProject && (
+        <EditProjectModal
+          project={editingProject}
+          onClose={() => setEditingProject(null)}
+        />
       )}
     </>
   );

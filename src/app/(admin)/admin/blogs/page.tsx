@@ -10,12 +10,17 @@ async function getBlogs() {
   return JSON.parse(JSON.stringify(blogs));
 }
 
-export default async function AdminBlogsPage() {
+export default async function AdminBlogsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ new?: string }>;
+}) {
   const blogs = await getBlogs();
+  const params = await searchParams;
 
   return (
     <div className="px-4 py-6">
-      <BlogList initialBlogs={blogs} />
+      <BlogList initialBlogs={blogs} autoOpenCreate={params.new === "true"} />
     </div>
   );
 }

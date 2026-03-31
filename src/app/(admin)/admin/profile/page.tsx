@@ -19,8 +19,13 @@ async function getData() {
   };
 }
 
-export default async function AdminProfilePage() {
+export default async function AdminProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ addExp?: string; uploadResume?: string }>;
+}) {
   const { user, socialLinks, experiences } = await getData();
+  const params = await searchParams;
 
   return (
     <div className="px-4 py-6">
@@ -28,6 +33,8 @@ export default async function AdminProfilePage() {
         initialUser={user}
         initialSocialLinks={socialLinks}
         initialExperiences={experiences}
+        autoAddExp={params.addExp === "true"}
+        autoUploadResume={params.uploadResume === "true"}
       />
     </div>
   );

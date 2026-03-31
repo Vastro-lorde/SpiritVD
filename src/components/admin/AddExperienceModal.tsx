@@ -2,21 +2,38 @@
 
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { createExperience } from "@/lib/actions/experience.actions";
+import { createExperience, updateExperience } from "@/lib/actions/experience.actions";
 import { useRouter } from "next/navigation";
+
+interface ExperienceInitialData {
+  _id: string;
+  company: string;
+  position: string;
+  startDate: string;
+  endDate: string | null;
+  currentlyWorking: boolean;
+  description?: string;
+}
 
 export default function AddExperienceModal({
   onClose,
+  initialData,
 }: {
   onClose: () => void;
+  initialData?: ExperienceInitialData;
 }) {
   const router = useRouter();
-  const [company, setCompany] = useState("");
-  const [position, setPosition] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [currentlyWorking, setCurrentlyWorking] = useState(false);
-  const [description, setDescription] = useState("");
+  const isEditing = !!initialData;
+  const [company, setCompany] = useState(initialData?.company ?? "");
+  const [position, setPosition] = useState(initialData?.position ?? "");
+  const [startDate, setStartDate] = useState(
+    initialData?.startDate ? initialData.startDate.slice(0, 10) : ""
+  );
+  const [endDate, setEndDate] = useState(
+    initialData?.endDate ? initialData.endDate.slice(0, 10) : ""
+  );
+  const [currentlyWorking, setCurrentlyWorking] = useState(initialData?.currentlyWorking ?? false);
+  const [description, setDescription] = useState(initialData?.description ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,11 +51,15 @@ export default function AddExperienceModal({
       formData.set("currentlyWorking", String(currentlyWorking));
       formData.set("description", description);
 
-      await createExperience(formData);
+      if (isEditing) {
+        await updateExperience(initialData!._id, formData);
+      } else {
+        await createExperience(formData);
+      }
       router.refresh();
       onClose();
     } catch {
-      setError("Failed to save experience. Please try again.");
+      setError(`Failed to ${isEditing ? "update" : "save"} experience. Please try again.`);
     } finally {
       setSaving(false);
     }
@@ -56,7 +77,7 @@ export default function AddExperienceModal({
         <div className="flex items-center justify-between">
           <button onClick={onClose} className="flex items-center gap-2 text-sm text-primary dark:text-white">
             <ArrowLeft className="h-4 w-4" />
-            Add Experience
+            {isEditing ? "Edit Experience" : "Add Experience"}
           </button>
           <button
             onClick={() => void submitExperience()}
@@ -154,7 +175,7 @@ export default function AddExperienceModal({
             disabled={saving || !company.trim() || !position.trim()}
             className="w-full rounded-lg bg-primary py-3 text-sm font-medium text-white transition-colors hover:bg-primary-light disabled:opacity-60"
           >
-            {saving ? "Submitting..." : "Submit"}
+            {saving ? (isEditing ? "Saving..." : "Submitting...") : (isEditing ? "Save Changes" : "Submit")}
           </button>
 
           {error && <p className="text-center text-sm text-red-500">{error}</p>}

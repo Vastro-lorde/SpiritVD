@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Plus, Pencil, EyeOff, Trash2 } from "lucide-react";
 import { BlogStatus } from "@/enums";
 import { deleteBlog, toggleBlogPublish } from "@/lib/actions/blog.actions";
 import CreateBlogModal from "./CreateBlogModal";
+import EditBlogModal from "./EditBlogModal";
 
 interface BlogItem {
   _id: string;
   title: string;
   slug: string;
+  subtitle?: string;
+  description?: string;
   coverImage: string;
   status: BlogStatus;
   viewCount: number;
@@ -21,12 +24,19 @@ type Tab = "all" | "published" | "deleted";
 
 export default function BlogList({
   initialBlogs,
+  autoOpenCreate,
 }: {
   initialBlogs: BlogItem[];
+  autoOpenCreate?: boolean;
 }) {
   const [blogs, setBlogs] = useState(initialBlogs);
   const [tab, setTab] = useState<Tab>("all");
   const [showCreate, setShowCreate] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<BlogItem | null>(null);
+
+  useEffect(() => {
+    if (autoOpenCreate) setShowCreate(true);
+  }, [autoOpenCreate]);
 
   const filtered = blogs.filter((b) => {
     if (tab === "all") return b.status !== BlogStatus.DELETED;
@@ -135,8 +145,10 @@ export default function BlogList({
               </p>
 
               <div className="mt-3 flex items-center gap-2">
-                <button className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border py-2 text-xs font-medium text-primary dark:border-border-dark dark:text-white">
-                  <Pencil className="h-3.5 w-3.5" />
+                <button
+                  onClick={() => setEditingBlog(blog)}
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border py-2 text-xs font-medium text-primary dark:border-border-dark dark:text-white"
+                >                  <Pencil className="h-3.5 w-3.5" />
                   Edit
                 </button>
                 <button
@@ -162,6 +174,12 @@ export default function BlogList({
       </div>
 
       {showCreate && <CreateBlogModal onClose={() => setShowCreate(false)} />}
+      {editingBlog && (
+        <EditBlogModal
+          blog={editingBlog}
+          onClose={() => setEditingBlog(null)}
+        />
+      )}
     </>
   );
 }
