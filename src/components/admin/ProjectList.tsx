@@ -39,6 +39,10 @@ export default function ProjectList({
   const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
 
   useEffect(() => {
+    setProjects(initialProjects);
+  }, [initialProjects]);
+
+  useEffect(() => {
     if (autoOpenCreate) setShowCreate(true);
   }, [autoOpenCreate]);
 

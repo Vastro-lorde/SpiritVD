@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 import { getEnv } from "@/lib/config/env";
+import { connectDB } from "@/lib/db/connection";
+import { SiteConfig } from "@/lib/models";
 
 function createTransporter() {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD } = getEnv();
@@ -45,8 +47,12 @@ export async function sendNotification(
   const { CONTACT_EMAIL, SMTP_USER } = getEnv();
   const transporter = createTransporter();
 
+  await connectDB();
+  const config = await SiteConfig.findOne().select("siteName").lean();
+  const siteName = config?.siteName || "Portfolio";
+
   await transporter.sendMail({
-    from: `"SpiritVD" <${SMTP_USER}>`,
+    from: `"${siteName}" <${SMTP_USER}>`,
     to: CONTACT_EMAIL,
     subject,
     html,
@@ -61,8 +67,12 @@ export async function sendReplyEmail(
   const { SMTP_USER } = getEnv();
   const transporter = createTransporter();
 
+  await connectDB();
+  const config = await SiteConfig.findOne().select("ownerName").lean();
+  const senderName = config?.ownerName || "Portfolio";
+
   await transporter.sendMail({
-    from: `"Seun Omatsola" <${SMTP_USER}>`,
+    from: `"${senderName}" <${SMTP_USER}>`,
     to,
     subject,
     html: `

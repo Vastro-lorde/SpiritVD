@@ -102,6 +102,19 @@ export interface IContactMessage {
   createdAt: Date;
 }
 
+export interface ISiteConfig {
+  _id: string;
+  siteName: string;
+  siteTitle: string;
+  siteDescription: string;
+  faviconUrl: string;
+  ownerName: string;
+  ownerEmail: string;
+  ownerPhone: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;

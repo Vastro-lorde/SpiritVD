@@ -4,14 +4,19 @@ import {
   FaGithub,
   FaYoutube,
   FaTwitter,
+  FaFacebookF,
+  FaInstagram,
 } from "react-icons/fa";
+import type { IconType } from "react-icons";
 
-const socialLinks = [
-  { icon: FaLinkedinIn, href: "https://linkedin.com/in/seundanielomatsola", label: "LinkedIn" },
-  { icon: FaGithub, href: "https://github.com/Vastro-lorde", label: "GitHub" },
-  { icon: FaYoutube, href: "#", label: "YouTube" },
-  { icon: FaTwitter, href: "https://twitter.com/vastroLord", label: "Twitter" },
-];
+const platformIcons: Record<string, { icon: IconType; label: string }> = {
+  linkedin: { icon: FaLinkedinIn, label: "LinkedIn" },
+  github: { icon: FaGithub, label: "GitHub" },
+  twitter: { icon: FaTwitter, label: "Twitter" },
+  youtube: { icon: FaYoutube, label: "YouTube" },
+  facebook: { icon: FaFacebookF, label: "Facebook" },
+  instagram: { icon: FaInstagram, label: "Instagram" },
+};
 
 const footerLinks = [
   { href: "/", label: "Home" },
@@ -21,7 +26,12 @@ const footerLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Footer() {
+interface FooterProps {
+  ownerName?: string;
+  socialLinks?: { platform: string; url: string }[];
+}
+
+export default function Footer({ ownerName, socialLinks = [] }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -43,23 +53,30 @@ export default function Footer() {
 
           {/* Social icons */}
           <div className="flex gap-4">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:text-primary dark:hover:text-white"
-                aria-label={label}
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
+            {socialLinks
+              .filter((link) => link.url && platformIcons[link.platform])
+              .map((link) => {
+                const { icon: Icon, label } = platformIcons[link.platform];
+                return (
+                  <a
+                    key={link.platform}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-muted transition-colors hover:text-primary dark:hover:text-white"
+                    aria-label={label}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
           </div>
 
-          <p className="text-sm text-muted">
-            &copy; {year} Seun Denial Omatsola
-          </p>
+          {ownerName && (
+            <p className="text-sm text-muted">
+              &copy; {year} {ownerName}
+            </p>
+          )}
         </div>
       </div>
     </footer>

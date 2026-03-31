@@ -18,3 +18,6 @@ export type { EducationDocument } from "./Education";
 
 export { ContactMessage } from "./ContactMessage";
 export type { ContactMessageDocument } from "./ContactMessage";
+
+export { SiteConfig } from "./SiteConfig";
+export type { SiteConfigDocument } from "./SiteConfig";

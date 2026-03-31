@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { connectDB } from "@/lib/db/connection";
-import { Project, Blog, User, Experience, SocialLink } from "@/lib/models";
+import { Project, Blog, User, Experience, SocialLink, SiteConfig } from "@/lib/models";
 import { ProjectStatus, BlogStatus } from "@/enums";
 import { FiDownload } from "react-icons/fi";
 import { FaLinkedinIn, FaGithub, FaTwitter } from "react-icons/fa";
@@ -14,12 +14,13 @@ const fallbackData = {
   blogs: [] as never[],
   socialLinks: [] as { platform: string; url: string }[],
   stats: { projects: 0, experience: 0, totalViews: 0 },
+  siteConfig: null as null | { siteName?: string; ownerName?: string },
 };
 
 async function getData() {
   try {
     await connectDB();
-    const [user, projects, blogs, socialLinks, experienceCount] = await Promise.all([
+    const [user, projects, blogs, socialLinks, experienceCount, siteConfig] = await Promise.all([
       User.findOne().select("-passwordHash").lean(),
       Project.find({ status: ProjectStatus.PUBLISHED })
         .sort({ createdAt: -1 })
@@ -31,6 +32,7 @@ async function getData() {
         .lean(),
       SocialLink.find().select("platform url").lean(),
       Experience.countDocuments(),
+      SiteConfig.findOne().lean(),
     ]);
 
     const totalViews =
@@ -55,6 +57,7 @@ async function getData() {
         experience: experienceCount,
         totalViews,
       },
+      siteConfig: siteConfig ? JSON.parse(JSON.stringify(siteConfig)) : null,
     };
   } catch (err) {
     console.error("Failed to load home page data:", err);
@@ -63,11 +66,14 @@ async function getData() {
 }
 
 export default async function HomePage() {
-  const { user, projects, blogs, socialLinks, stats } = await getData();
+  const { user, projects, blogs, socialLinks, stats, siteConfig } = await getData();
 
-  const getSocialUrl = (platform: string, fallback: string) =>
+  const ownerName = user?.name ?? siteConfig?.ownerName ?? "";
+  const siteName = siteConfig?.siteName ?? "SD";
+
+  const getSocialUrl = (platform: string) =>
     socialLinks.find((link: { platform: string; url: string }) => link.platform === platform)
-      ?.url || fallback;
+      ?.url || "#";
 
   return (
     <div>
@@ -79,18 +85,15 @@ export default async function HomePage() {
               Hey!
             </p>
             <h1 className="mt-2 text-3xl font-bold text-primary dark:text-white md:text-4xl">
-              {user?.name ?? "Seun Denial Omatsola"}
+              {ownerName}
             </h1>
             <p className="mt-1 text-lg text-muted">
-              {user?.title ?? "Software Engineer (.NET/JS)"}
+              {user?.title ?? ""}
             </p>
 
             <div className="mt-4 flex items-center justify-center gap-3 md:justify-start">
               <a
-                href={getSocialUrl(
-                  "linkedin",
-                  "https://linkedin.com/in/seundanielomatsola"
-                )}
+                href={getSocialUrl("linkedin")}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -100,7 +103,7 @@ export default async function HomePage() {
                 <FaLinkedinIn className="h-5 w-5" />
               </a>
               <a
-                href={getSocialUrl("github", "https://github.com/Vastro-lorde")}
+                href={getSocialUrl("github")}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -110,7 +113,7 @@ export default async function HomePage() {
                 <FaGithub className="h-5 w-5" />
               </a>
               <a
-                href={getSocialUrl("twitter", "https://twitter.com/vastroLord")}
+                href={getSocialUrl("twitter")}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
@@ -154,7 +157,7 @@ export default async function HomePage() {
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center bg-primary/5 text-4xl font-bold text-primary">
-                SD
+                {siteName}
               </div>
             )}
           </div>
@@ -165,8 +168,7 @@ export default async function HomePage() {
           {[
             { label: "PROJECTS", value: `${stats.projects}+` },
             { label: "YRS EXP", value: `${stats.experience}+` },
-            { label: "REPOS/PROJECTS", value: "42" },
-            { label: "UPTIME/YEAR", value: "99.9%" },
+            { label: "TOTAL VIEWS", value: `${stats.totalViews}` },
           ].map(({ label, value }) => (
             <div
               key={label}

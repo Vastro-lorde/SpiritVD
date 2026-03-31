@@ -8,6 +8,7 @@ import {
   FileText,
   User,
   Mail,
+  Settings,
   ArrowLeftRight,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ const navItems = [
   { href: "/admin/blogs", icon: FileText, label: "Blog" },
   { href: "/admin/messages", icon: Mail, label: "Messages" },
   { href: "/admin/profile", icon: User, label: "Profile" },
+  { href: "/admin/settings", icon: Settings, label: "Settings" },
   { href: "/", icon: ArrowLeftRight, label: "Switch" },
 ];
 

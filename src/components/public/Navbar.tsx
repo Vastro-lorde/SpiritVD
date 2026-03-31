@@ -14,7 +14,7 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ siteName = "SD" }: { siteName?: string }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -22,7 +22,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-white/80 backdrop-blur-md dark:border-border-dark dark:bg-surface-dark/80">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="text-xl font-bold text-primary dark:text-white">
-          SD.
+          {siteName}.
         </Link>
 
         {/* Desktop nav */}

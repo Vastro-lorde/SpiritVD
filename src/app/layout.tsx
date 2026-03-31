@@ -3,14 +3,34 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { ToastProvider } from "@/components/shared/Toast";
+import { connectDB } from "@/lib/db/connection";
+import { SiteConfig } from "@/lib/models";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Seun Denial Omatsola | Software Engineer",
-  description:
-    "Portfolio of Seun Denial Omatsola — Software Engineer specializing in .NET and JavaScript",
-};
+async function getSiteConfig() {
+  try {
+    await connectDB();
+    const config = await SiteConfig.findOne().lean();
+    return config;
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await getSiteConfig();
+
+  const icons: Metadata["icons"] = config?.faviconUrl
+    ? { icon: config.faviconUrl }
+    : undefined;
+
+  return {
+    title: config?.siteTitle || "Portfolio",
+    description: config?.siteDescription || "",
+    icons,
+  };
+}
 
 export default function RootLayout({
   children,

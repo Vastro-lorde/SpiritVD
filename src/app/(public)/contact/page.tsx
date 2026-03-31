@@ -1,23 +1,30 @@
 export const dynamic = "force-dynamic";
 
 import { connectDB } from "@/lib/db/connection";
-import { User } from "@/lib/models";
+import { User, SiteConfig } from "@/lib/models";
 import { FiMail, FiPhone, FiDownload } from "react-icons/fi";
 import ContactForm from "@/components/public/ContactForm";
 
-async function getUser() {
+async function getContactData() {
   try {
     await connectDB();
-    const user = await User.findOne().select("-passwordHash").lean();
-    return user ? JSON.parse(JSON.stringify(user)) : null;
+    const [user, siteConfig] = await Promise.all([
+      User.findOne().select("-passwordHash").lean(),
+      SiteConfig.findOne().lean(),
+    ]);
+    return {
+      user: user ? JSON.parse(JSON.stringify(user)) : null,
+      email: siteConfig?.ownerEmail ?? "",
+      phone: siteConfig?.ownerPhone ?? "",
+    };
   } catch (err) {
-    console.error("Failed to load user data:", err);
-    return null;
+    console.error("Failed to load contact data:", err);
+    return { user: null, email: "", phone: "" };
   }
 }
 
 export default async function ContactPage() {
-  const user = await getUser();
+  const { user, email, phone } = await getContactData();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -38,7 +45,7 @@ export default async function ContactPage() {
           <div>
             <p className="text-xs text-muted">Email</p>
             <p className="font-medium text-primary dark:text-white">
-              Omatsolaseund@gmail.com
+              {email}
             </p>
           </div>
         </div>
@@ -50,7 +57,7 @@ export default async function ContactPage() {
           <div>
             <p className="text-xs text-muted">Phone Number</p>
             <p className="font-medium text-primary dark:text-white">
-              +234 816 321 4714
+              {phone}
             </p>
           </div>
         </div>

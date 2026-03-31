@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import Image from "next/image";
 import { connectDB } from "@/lib/db/connection";
-import { User, Experience, Education, SocialLink } from "@/lib/models";
+import { User, Experience, Education, SocialLink, SiteConfig } from "@/lib/models";
 import GitHubStatsCard from "@/components/public/GitHubStatsCard";
 import {
   FaLinkedinIn,
@@ -26,21 +26,23 @@ const platformIcons: Record<string, { icon: IconType; label: string }> = {
 async function getData() {
   try {
     await connectDB();
-    const [user, experiences, education, socialLinks] = await Promise.all([
+    const [user, experiences, education, socialLinks, siteConfig] = await Promise.all([
       User.findOne().select("-passwordHash").lean(),
       Experience.find().sort({ order: 1, createdAt: -1 }).lean(),
       Education.find().lean(),
       SocialLink.find().select("platform url").lean(),
+      SiteConfig.findOne().lean(),
     ]);
     return {
       user: user ? JSON.parse(JSON.stringify(user)) : null,
       experiences: JSON.parse(JSON.stringify(experiences)),
       education: JSON.parse(JSON.stringify(education)),
       socialLinks: JSON.parse(JSON.stringify(socialLinks)),
+      siteConfig: siteConfig ? JSON.parse(JSON.stringify(siteConfig)) : null,
     };
   } catch (err) {
     console.error("Failed to load about page data:", err);
-    return { user: null, experiences: [], education: [], socialLinks: [] };
+    return { user: null, experiences: [], education: [], socialLinks: [], siteConfig: null };
   }
 }
 
@@ -51,8 +53,10 @@ function formatDate(date: string | null) {
 }
 
 export default async function AboutPage() {
-  const { user, experiences, socialLinks } = await getData();
+  const { user, experiences, socialLinks, siteConfig } = await getData();
 
+  const ownerName = user?.name ?? siteConfig?.ownerName ?? "";
+  const siteName = siteConfig?.siteName ?? "SD";
   const userInterests: string[] = user?.interests ?? [];
 
   return (
@@ -74,16 +78,16 @@ export default async function AboutPage() {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-primary/5 text-3xl font-bold text-primary">
-              SD
+              {siteName}
             </div>
           )}
         </div>
 
         <h2 className="mt-4 text-xl font-bold text-primary dark:text-white">
-          {user?.name ?? "Seun Denial Omatsola"}
+          {ownerName}
         </h2>
         <p className="text-sm text-muted">
-          {user?.title ?? "Software Engineer (.NET/JS)"}
+          {user?.title ?? ""}
         </p>
 
         {/* Social icons — rendered dynamically from backend */}
@@ -112,8 +116,7 @@ export default async function AboutPage() {
         </div>
 
         <p className="mt-6 text-center leading-relaxed text-muted">
-          {user?.bio ??
-            "I am a passionate software engineer with over 5 years of professional experience building modern web applications. My journey started with front-end development, but I quickly transitioned into full-stack engineering to architect robust systems from end to end."}
+          {user?.bio ?? ""}
         </p>
       </div>
 
