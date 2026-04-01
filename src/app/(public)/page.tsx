@@ -133,7 +133,7 @@ export default async function HomePage() {
               </Link>
               {user?.resumeUrl && (
                 <a
-                  href={user.resumeUrl}
+                  href="/api/resume"
                   download
                   className="flex items-center gap-2 rounded-full border border-primary px-6 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white dark:border-white dark:text-white"
                 >
